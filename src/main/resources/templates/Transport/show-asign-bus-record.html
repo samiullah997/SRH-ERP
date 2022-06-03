@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Transport/base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title> Dashboard page</title>
+</head>
+
+<body>
+	<section >
+	<div class="container text-center">
+		<div class="card" style="width: 18rem;" th:each="b:${busRecord}">
+			<div class="text-center">
+			<img th:src="@{/images/bus.png}" style="width: 40%; height:35%;" class="card-img-top" alt="...">
+			</div>
+			<div class="card-body">
+				<h5 class="card-title" th:text="${'Vehicle Name: '+b.busName}">Card title</h5>
+				<p class="card-text" th:text="${'Model: '+b.busModel}">Some quick example text to build on the card title and make up the bulk of the
+					card's content.</p>
+			</div>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item" th:text="'Engine: '+${b.asignBusRecordId.vehicleConditionId.engine}">Cras justo odio</li>
+				<li class="list-group-item" th:text="'Body: '+${b.asignBusRecordId.vehicleConditionId.body}">Dapibus ac facilisis in</li>
+				<li class="list-group-item" th:text="'Tires: '+${b.asignBusRecordId.vehicleConditionId.tire}">Vestibulum at eros</li>
+			</ul>
+			<div class="card-body">
+				<p href="#" class="card-link" th:text="'Assign Date: '+${b.asignBusRecordId.asignDate}">Card link</p>
+				
+			</div>
+			<div class="card-footer">
+			<a th:href="@{/Transport/checkout-bus(id=${b.busId},asignId=${b.asignBusRecordId.asignBusRecordId})}" class="btn btn-outline-primary">Check Out</a>
+			</div>
+		</div>
+</div>
+	</section>
+</body>
+
+</html>

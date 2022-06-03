@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="examination/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Date Sheet page</title>
+</head>
+<body>
+	<section>
+		<!--<div class="row row-cols-1 mt-3 row-cols-md-2 g-2">
+			<div class="col">
+				<div class="container text-center"
+					style="text-align: right; margin-bottom: 10px;">
+					<input type="button" id="addbtn" class="btnadd btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#HeaderRecord"
+						value="Add Date Sheet Header" />
+				</div>
+			</div>
+
+			<div class="col">
+				<div class="container text-center"
+					style="text-align: right; margin-bottom: 10px;">
+					<button type="button" id="addbtn" class="btnadd btn btn-primary"
+						onclick="window.print();" value="Print Date Sheet">Print
+						Date Sheet</button>
+				</div>
+			</div>
+
+		</div>-->
+
+		<div th:if="${session.message}"
+			th:classappend="${session.message.type}" class="alert" role="alert">
+			<p th:text="${session.message.content}"></p>
+			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
+
+		<style>
+@media print {
+	body * {
+		visibility: hidden;
+	}
+	.print-container, .print-container * {
+		visibility: visible;
+	}
+	.print-container {
+		position: absolute;
+		left: 0px;
+		top: 50px;
+	}
+	.btnadd, .changebtn {
+		display: none;
+		visibility: none;
+	}
+}
+</style>
+
+
+		<div class="container text-center print-container table-responsive">
+			<div class="card" th:each="dh:${dateSheetHeaders}">
+				<div class="text-center card-header">
+					<div class="row mt-2 ">
+						<div class="col-md-2 order-first border-success"><input type="button" id="addbtn" class="btnadd btn btn-outline-primary "
+						data-bs-toggle="modal" data-bs-target="#HeaderRecord"
+						value="Change Header" />
+						</div>
+						<div class="col"><h3 th:text="${'Deparment of '+dh.department}">Department of Computer Science</h3></div>
+						<div class="col-md-2 order-last border-success"><input type="button" id="addbtn" class=" mr-2 btnadd btn btn-outline-primary "
+						onclick="window.print();" value="Print Date Sheet"/></div>
+						
+					</div>
+					
+				</div>
+				<caption class="text-center">
+					<h5>Shaheed Rashid Hussain Campus, Pabbi</h5>
+				</caption>
+				<caption class="text-center">
+					<h5>
+						Date Sheet Terminal <span th:text="${dh.dateSheetDate}"></span>
+					</h5>
+				</caption>
+				<caption class="text-center">
+					<h5>
+						Date Sheet <span th:text="${dh.dateSheetType}"></span>
+					</h5>
+				</caption>
+				<table class="table caption-top">
+					<thead>
+						<tr>
+							<th scope="col" style="background-color: black; color: white"></th>
+							<th scope="col" style="background-color: black; color: white"
+								th:text="${dh.firstShiftTime}">First Shift Time</th>
+							<th scope="col" style="background-color: black; color: white"
+								th:text="${dh.secondShiftTime}">Second Shift Time</th>
+
+						</tr>
+					</thead>
+					<tbody th:each="dr:${dateSheetRecords}">
+						<tr class="text-center">
+							<th scope="row"
+								style="background-color: black; color: white; width: 20%;"
+								th:text="${dr.date}">Thursday <br />20-01-2020
+							</th>
+							<td><span th:text="${dr.firstPaperNameOne}"></span><br /> <span
+								th:text="${dr.firstPaperNameTwo}"></span></td>
+							<td><span th:text="${dr.secondPaperNameOne}"></span><br />
+								<span th:text="${dr.secondPaperNameTwo}"></span></td>
+							<td class="dtchange" id="dtchange"><input id="btnChange"
+								type="button" data-bs-toggle="modal"
+								data-bs-target="#dateSheetRecord"
+								class="changebtn btn btn-outline-primary" value="Change" /> <input
+								type="hidden" id="btnChangeId" th:value="${dr.id}"
+								class="changebtn btn btn-outline-primary" /></td>
+
+						</tr>
+
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+		<!-- Modal -->
+		<div class="modal  fade " id="dateSheetRecord" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Date Sheet
+							Records</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<!--header button -->
+					<div class="modal-body">
+
+
+						<div class="card">
+							<div class="container card-header text-center">
+								<h2>Date Sheet Records</h2>
+							</div>
+							<div class="card-body">
+								<div class="container">
+									<div th:if="${session.message}"
+										th:classappend="${session.message.type}" class="alert"
+										role="alert">
+										<p th:text="${session.message.content}"></p>
+										<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+									</div>
+
+									<form class="row g-3" action="#" th:object="${resultList}"
+										method="POST" th:action="@{/examination/submit-date-sheet}">
+
+										<input type="hidden" name="id" class="btnchangeid">
+
+
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												First Shift Subject 1</label> <select name="firstPaperNameOne"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="s:${subjects}"
+													th:text="${s.subjectName}+' Bcs-'+${s.semester}">Datastructure-301</option>
+
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												First Shift Subject 2 </label> <select name="firstPaperNameTwo"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="s:${subjects}"
+													th:text="${s.subjectName}+' Bcs-'+${s.semester}">Datastructure-301</option>
+
+											</select>
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												Second Shift Subject 1 </label> <select name="secondPaperNameOne"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="s:${subjects}"
+													th:text="${s.subjectName}+' Bcs-'+${s.semester}">Math-301</option>
+
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												Second Shift Subject 2</label> <select name="secondPaperNameTwo"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="s:${subjects}"
+													th:text="${s.subjectName}+' Bcs-'+${s.semester}">Math-301</option>
+
+											</select>
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Paper Date
+											</label> <input name="date" required type="date" class="form-control"
+												id="inputCity">
+										</div>
+
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Change</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- date Sheet header Information Modal -->
+		<div class="modal fade" id="HeaderRecord" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Date Sheet
+							Header Information Records</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<div class="modal-body">
+
+						<div class="card">
+							<div class="container card-header text-center">
+								<h2>Date Sheet Records</h2>
+							</div>
+							<div class="card-body">
+								<div class="container">
+									<div th:if="${session.message}"
+										th:classappend="${session.message.type}" class="alert"
+										role="alert">
+										<p th:text="${session.message.content}"></p>
+										<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+									</div>
+
+									<form class="row g-3" action="#" th:object="${resultList}"
+										method="POST"
+										th:action="@{/examination/submit-date-sheet-header}">
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Deparment</label>
+											<select name="department" id="inputState" required
+												class="form-select">
+												<option selected disabled>Choose...</option>
+												<option>Computer Science</option>
+												<option>Bachelor of Business Administration</option>
+											</select>
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Date
+												Sheet Type</label> <select name="dateSheetType" id="inputState"
+												required class="form-select">
+												<option selected disabled>Choose...</option>
+												<option>Mid Term</option>
+												<option>Final Term</option>
+											</select>
+										</div>
+
+
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Date Sheet
+												Date </label> <input name="dateSheetDate" required type="date"
+												class="form-control" id="inputCity">
+										</div>
+
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">First Shift
+												Paper Start Time </label> <input name="firstShiftTime" required
+												type="time" class="form-control" id="inputCity">
+										</div>
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">First Shift
+												Paper End Time </label> <input name="firstShiftTime" required
+												type="time" class="form-control" id="inputCity">
+										</div>
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Second
+												Shift Paper Start Time </label> <input name="secondShiftTime"
+												required type="time" class="form-control" id="inputCity">
+										</div>
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Second
+												Shift Paper End Time </label> <input name="secondShiftTime" required
+												type="time" class="form-control" id="inputCity">
+										</div>
+
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Change</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

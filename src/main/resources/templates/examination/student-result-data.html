@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="examination/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Dashboard page</title>
+</head>
+<body>
+	<section>
+
+<!-- 		<div class="container text-right" -->
+<!-- 			style="text-align: right; margin-bottom: 10px;"> -->
+<!-- 			<input type="button" class="btn btn-primary" data-bs-toggle="modal" -->
+<!-- 				data-bs-target="#addPaper" value="Add Batch" /> -->
+<!-- 		</div> -->
+
+		<div class="row row-cols-1 row-cols-md-3 g-3">
+			<div class="col" th:each="b:${batchRecord}">
+				<a style="text-decoration: none;"
+					th:href="@{/examination/students-all-data(page=0,batch=${b.batch})}">
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Batch Name</h5>
+							<h5 class="card-title" th:text="${b.batch}">Batch-17</h5>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		
+		<div class="container text-center mt-3">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${currentPage != 0}" class="page-item"><a
+							th:href="@{/examination/student-result-data(page=${currentPage-1})}"
+							class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}"
+							class="page-item"><a
+							th:href="@{/examination/student-result-data(page=${i-1})}"
+							class="page-link" href="#"><span th:text="${i}"></span></a></li>
+						<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+							th:href="@{/examination/student-result-data(page=${currentPage+1})}"
+							class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="addPaper" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Batch
+							Records</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<div class="modal-body">
+
+						<div class="card">
+							<div class="container card-header text-center">
+								<h2>Batch Records</h2>
+							</div>
+							<div class="card-body">
+								<div class="container">
+									<div th:if="${session.message}"
+										th:classappend="${session.message.type}" class="alert"
+										role="alert">
+										<p th:text="${session.message.content}"></p>
+										<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+									</div>
+
+									<form class="row g-3" action="#" th:object="${batchRecord}"
+										method="POST" th:action="@{/examination/batch-register}">
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label"> Enter
+												Batch </label> <input name="name" required type="text"
+												class="form-control" id="inputEmail4">
+										</div>
+
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Enter Batch
+												Date </label> <input name="date" required type="date"
+												class="form-control" id="inputCity">
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Register</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
+</body>
+</html>

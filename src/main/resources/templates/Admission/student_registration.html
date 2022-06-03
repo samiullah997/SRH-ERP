@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admission/base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>This is Student Registration page</title>
+</head>
+
+<body>
+	<section>
+			<div class="card">
+				<div class="container card-header text-center">
+					<h2>Student
+						Registration Form</h2>
+				</div>
+				<div class="card-body">
+					<div class="container">
+						<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert"
+							role="alert">
+							<p th:text="${session.message.content}"></p>
+							<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+						</div>
+
+					<form class="row g-3" action="#" th:object="${students}"
+						enctype="multipart/form-data" method="POST"
+						th:action="@{/Admission/st-register}">
+						<div class="col-md-6">
+							<label class="form-label">Upload your Image</label> <input
+								name="image"  type="file" class="form-control"
+								id="inputfile">
+						</div>
+						<div class="col-md-6">
+							<label for="inputEmail4" class="form-label">First Name</label> <input
+								name="firstName" required type="text" class="form-control"
+								id="inputEmail4">
+						</div>
+						<div class="col-md-6">
+							<label for="inputPassword4" class="form-label">Last Name</label>
+							<input name="lastName" required type="text" class="form-control"
+								id="inputPassword4">
+						</div>
+						<div class="col-md-6">
+							<label for="inputPassword4" class="form-label">Father
+								Name</label> <input name="fatherName" required type="text" class="form-control"
+								id="inputPassword4">
+						</div>
+						<div class="col-6">
+							<label for="inputAddress" class="form-label">Permanent
+								Address</label> <input name="permanentAddress" required type="text"
+								class="form-control" id="inputAddress"
+								placeholder="1234 Main St">
+						</div>
+						<div class="col-6">
+							<label for="inputAddress2" class="form-label">Mailing
+								Address</label> <input name="maillingAddress" required type="text"
+								class="form-control" id="inputAddress2"
+								placeholder="Apartment, studio, or floor">
+						</div>
+						<div class="col-md-6">
+							<label for="inputCity" class="form-label">Phone Number</label> <input
+								name="phone" type="number" placeholder="03XX-XXXXXX"  maxlength = "11" class="form-control" id="inputCity">
+						</div>
+						<div class="col-md-6">
+							<label for="inputCity" class="form-label">Date of
+								Submission</label> <input name="date" required type="date"
+								class="form-control" id="inputCity">
+						</div>
+						<div class="col-md-6">
+							<label for="inputCity" class="form-label">Date of
+								Birth</label> <input name="dateOfBirth" required type="date"
+								class="form-control" id="inputCity">
+						</div>
+						<div class="col-md-6">
+							<label for="inputCity" class="form-label">Roll Number</label> <input
+								name="rollNo" type="text" class="form-control" th:value="${'Bcs'+#calendars.format(#calendars.createNow(), 'yy')+'-'+studentRollNO}" required id="inputCity">
+						</div>
+						<!-- <div class="col-md-6">
+							<label for="inputCity" class="form-label">Registration
+								Number</label> <input name="registrationNo" required type="text"
+								class="form-control" id="inputCity">
+						</div> -->
+						<div class="col-md-6">
+							<label for="inputCity" class="form-label">CNIC Number</label> <input
+								name="cnicNo" type="number" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X" maxlength = "14" class="form-control" required id="inputCity">
+						</div>
+						<div class="col-md-6">
+							<label for="inputCity" class="form-label">Domicile</label> <input
+								name="domicile" type="text" class="form-control" required id="inputCity">
+						</div>
+						<div class="col-md-6">
+							<label for="inputCity" class="form-label">Nationality</label> <input
+								name="nationality" type="text" required class="form-control"
+								id="inputCity">
+						</div>
+						<div class="col-md-6">
+							<label for="inputEmail" class="form-label">Email</label> <input
+								name="email" type="email" placeholder="example@gmail.com" required class="form-control" id="inputCity">
+						</div>
+						<div class="col-md-6">
+							<label for="inputDepartment" class="form-label">Department</label>
+							<select name="department" id="inputState" required class="form-select">
+								<option selected>Choose...</option>
+								<option>Bachelor of Computer Science</option>
+								<option>Bachelor of Business Administration</option>
+							</select>
+						</div>
+						<div class="col-md-6">
+							<label for="inputBatch" class="form-label">Batch</label> <input
+								name="batch" type="text" required class="form-control" th:value="${'Bcs-'+#calendars.format(#calendars.createNow(), 'yy')}" id="inputCity">
+						</div>
+						
+						<div class="col-md-6">
+							<label for="inputZip" class="form-label">Program</label><select
+								name="program" required class="form-select" id="inputState">
+								<option selected>Choose...</option>
+								<option>Bcs</option>
+								<option>BBA</option>
+							</select>
+						</div>
+						<label for="inputBatch" class="form-label text-center"><h2>Accounting Details</h2></label>
+						<div class="col-md-6">
+							<label for="inputBatch" class="form-label">Total Registration Fee</label> <input
+								name="totalAmount" type="number" required class="form-control" id="inputCity">
+						</div>
+						
+						<div class="col-md-6">
+							<label for="inputBatch" class="form-label">Submit Registration Fee</label> <input
+								name="submitAmount" type="number" required class="form-control" id="inputCity">
+						</div>
+						<div class="col-md-6">
+							<label for="inputBatch" class="form-label">Bank Slip Number</label> <input
+								name="slipNumber" type="text" required class="form-control" id="inputCity">
+						</div>
+						
+						<div class="col-md-6">
+							<label for="inputBatch" class="form-label">Fee Submitted Date</label> <input
+								name="feeDate" type="date" required class="form-control" id="inputCity">
+						</div>
+						
+						<div class="col-12 text-center">
+							<button type="submit" name="" class="btn btn-outline-primary">Register</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

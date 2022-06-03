@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/js/script.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/sweetalert.min.js}"></script>
+	<script th:src="@{/js/owl.carousel.min.js}"></script>
+
+	<!--FontAwesome Icon-->
+	<script th:src="@{/js/all.min.js}"></script>
+
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="" th:href="@{/css/style.css}" />
+	<link rel="stylesheet" href="" th:href="@{/css/bootstrap.css}" />
+	<link rel="stylesheet" href="" th:href="@{/css/bootstrap.min.css}" />
+	<!--OWL Carousel CSS-->
+	<link rel="stylesheet" href="" th:href="@{/css/owl.carousel.css}" />
+	<link rel="stylesheet" href="" th:href="@{/css/owl.theme.green.css}" />
+
+	<!--FontAwesome Icon-->
+	<link rel="stylesheet" href="" th:href="@{/css/all.min.css}" />
+
+	<!--Ubutu fonts-->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+
+	<title th:text="${title}">Base Html</title>
+</head>
+
+<body>
+
+		<!-- navbar -->
+	<nav
+		class="navbar navbar-expand-lg navbar-dark custom-bg container-fluid navbar-toggler sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/}">SRH Pabbi</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" th:href="@{/Admission/index}">Home</a></li>
+
+				</ul>
+				<ul class="navbar-nav text-right">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#!">Welcome! <span
+							th:text="${user.name}"></span></a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- End of navbar -->
+
+
+	<!-- 	Side bar -->
+	<div class="sidebar">
+		<div class="text-center">
+			<img class="logo" th:src="@{/images/logo.gif}" alt="logo" />
+		</div>
+		<div class="divider"></div>
+		<div class="main" id="main">
+			<a th:href="@{/Admission/index}" class="item">Home</a> <a th:href="@{/Admission/student-registration}"
+				class="item" style="font-size: 15px;">Student
+				Registration</a>
+				<a th:href="@{/Admission/all-batches}"
+				class="item" style="font-size: 15px;">Student
+				Fee Record</a>
+				 <a th:href="@{/Admission/all-subjects}" class="item">All Subjects</a>
+				<a th:href="@{/Admission/all-teachers}" class="item">All Teachers</a> <a
+				class="nav-link active " aria-current="page" th:href="@{/logout}">logout</a>
+		</div>
+		<div class="divider" style="position: relative; bottom: 0px;"></div>
+
+		<div class="card-footer text-center update fixed footer" style="position: absolute; bottom: 10px;">
+			<span class="mt-2">Version 1.0.0</span><br>
+			<span>Developed by</span><br>
+			<span>Samiullah Rashid Menhas & Hamza Khan</span><br>
+			<span class="mb-4">Supervised by Dr. Adil Khan</span>
+		</div>
+	</div>
+
+
+
+	<div class="content card-body">
+
+		<div th:replace=${content}></div>
+
+
+	</div>
+
+
+
+	<!-- Optional JavaScript; choose one of the two! -->
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
+	<!-- Option 2: Separate Popper and Bootstrap JS -->
+	<!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    -->
+	<script th:src="@{/js/script.js}"></script>
+	<script th:src="@{/js/bootstrap.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>

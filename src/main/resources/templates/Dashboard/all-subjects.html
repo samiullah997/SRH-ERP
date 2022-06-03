@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Dashboard/base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title> All Subjects</title>
+</head>
+<body>
+	<section>
+
+		<div class="container mt-5">
+			<h1 class="text-center">All Course</h1>
+			<!-- Start All Course First Card -->
+			<div class="card-deck row mt-4" >
+				<div class="col-md-4" th:each="b:${subjectList}">
+					<a href="#" class="btn " style="text-align:left; padding:0px; margin:0px;">
+						<div class="card mt-2" style="width:300px; height:415px">
+							<div class="card-header">
+								<h3 class="text-center">Title</h3>
+								<p class="text-center" th:text="${b.subjectName}"></p>
+							</div>
+							<div class="text-center">
+							<img src="images/book.png" style="width:200px; height:200px"  class="card-img-top" alt="Python" />
+							</div>
+							<div class="card-body">
+								<p class="card-text" th:text="${'Subject Code: '+b.subjectCode}">porem ipsum dolor sit amet consectetur adipisicing elit. Facilis,nemo.
+								</p>
+							</div>
+							<div class="card-footer">
+								<p class="card-text d-inline" >Subject Cradit Hour: <small th:text="${b.subjectCraditHour}"></small><span
+										class="font-weight-bolder" th:text="${', '+'Semester: '+b.semester}">
+										</span></p>
+							</div>
+						</div>
+					</a>
+				</div>
+		</div>
+		<!-- End All Course -->
+		
+		<div class="container text-center mt-3">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${currentPage != 0}" class="page-item"><a
+							th:href="@{/all-subjects(page=${currentPage-1})}"
+							class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}"
+							class="page-item"><a
+							th:href="@{/all-subjects(page=${i-1})}"
+							class="page-link" href="#"><span th:text="${i}"></span></a></li>
+						<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+							th:href="@{/all-subjects(page=${currentPage+1})}"
+							class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+
+	</section>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="Library/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Total Member Issued Books Page</title>
+</head>
+<body>
+	<section>
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="b:${issuedBooks}">
+				
+					<div class="card h-100">
+					<a style="text-decoration: none;" th:href="@{/Library/member-books(id=${b.studentsId.id})}">
+						<div class="text-center" style="margin-top: 3%">
+							<img th:src="@{/images/user.png}"
+								class="card-img-top text-center"
+								style="width: 50%; height: 80%;" alt="...">
+						</div>
+						<div class="card-body">
+							<h5 class="card-title text-center"
+								th:text="${'Member Name: '+b.studentsId.firstName+' '+b.studentsId.lastName}">Card
+								title</h5>
+							<h6 class="card-text text-center"
+								th:text="${'Department: '+b.studentsId.department}"></h6>
+							<p class="card-text"></p>
+							<p class="card-text text-center"
+								th:text="${'RollNo: '+b.studentsId.rollNo}"></p>
+						</div>
+						<div class="card-footer">
+							<small class="text-muted">Click Here To See All
+								Issued Books Of The Member</small>
+						</div>
+					</div>
+					</a>
+			</div>
+			
+
+
+		</div>
+
+		<div class="container text-center mt-3" th:if="${totalPages}>=1">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li th:if="${currentPage != 0}" class="page-item"><a
+						th:href="@{/Library/Issue-book(page=${currentPage-1})}"
+						class="page-link" href="#">Previous</a></li>
+					<li th:classappend="${currentPage==i-1?'active':''}"
+						th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a
+						th:href="@{/Library/Issue-book(page=${i-1})}" class="page-link"
+						href="#"><span th:text="${i}"></span></a></li>
+					<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+						th:href="@{/Library/Issue-book(page=${currentPage+1})}"
+						class="page-link" href="#">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="text-center mt-5" th:unless="${totalPages}>=1">
+			<h2>There is No Issue Book</h2>
+		</div>
+	</section>
+</body>
+</html>

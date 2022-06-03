@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Transport/base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Bus Record page</title>
+</head>
+
+<body>
+	<section>
+		<div class="row row-cols-1 row-cols-md-1 g-1">
+			<div class="col">
+				<div class="container text-center" style="text-align: right; margin-bottom: 10px;">
+					<input type="button" id="addbtn" class="btnadd btn btn-primary" data-bs-toggle="modal"
+						data-bs-target="#addBus" value="Add Vehicle Record" />
+				</div>
+			</div>
+
+		</div>
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="b:${allBuses}">
+
+				<div class="card h-100">
+					<!-- 					<a style="text-decoration: none;" th:href="@{/Library/member-books(id=${b.studentsId.id})}"> -->
+					<div class="text-center" style="margin-top: 3%">
+						<img th:src="@{/images/Bus.png}" class="card-img-top text-center"
+							style="width: 50%; height: 100%;" alt="...">
+					</div>
+					<div class="card-body text-center">
+						<input type="hidden" id="busId" th:value="${b.busId}" />
+						<h5 class="card-title text-center" th:text="${'Vehicle Name: '+b.busName}">Card title</h5>
+						<p class="card-text text-center" th:text="${'Vehicle Route: '+b.route}">Type</p>
+						<p class="card-text text-center" th:text="${'Vehicle Number: '+b.busNumber}">Number</p>
+
+						<p class="card-text text-center" th:text="${'Vehicle Type: '+b.busType}">Type</p>
+						<p class="card-text text-center" th:text="${'Model: '+b.busModel}">Model</p>
+						<a th:if="${b.asignStatus!='Assigned'}" class="card-text text-center btn btn-outline-danger"
+							th:onclick="setVehicleAsignId([[${b.busId}]])" data-bs-toggle="modal"
+							data-bs-target="#asignBus">Asign to Driver</a>
+							<a th:href="@{/Transport/show-asign-bus-record(id=${b.busId})}" style="text-decoration: none;">
+						<p th:unless="${b.asignStatus!='Assigned'}" class="card-text text-center bg-success text-white">
+							<span th:text="${'Assigned To: '+b.asignBusRecordId.driverName}"></span>
+							</p></a>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted" th:text="${'Total Seats: '+b.busSeat}+'-------'">Tranport
+							System</small><small><a
+								th:href="@{/Transport/Seat-Reservation-form(id=${b.busId},busName=${b.busName})}"><input
+									type="button" class="btn btn-outline-primary btn-sm"
+									value="Student Registration" /></a></small>
+
+					</div>
+				</div>
+				<!-- 					</a> -->
+			</div>
+
+
+
+		</div>
+
+		<div class="container text-center mt-3" th:if="${totalPages}>=1">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li th:if="${currentPage != 0}" class="page-item"><a
+							th:href="@{/Transport/Bus-Record(page=${currentPage-1})}" class="page-link"
+							href="#">Previous</a></li>
+					<li th:classappend="${currentPage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a
+						th:href="@{/Transport/Bus-Record(page=${i-1})}" class="page-link"
+						href="#"><span th:text="${i}"></span></a></li>
+					<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+						th:href="@{/Transport/Bus-Record(page=${currentPage+1})}"
+						class="page-link" href="#">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="text-center mt-5" th:unless="${totalPages}>=1">
+			<h2>There is No Vehicle Record Fund</h2>
+		</div>
+
+
+		<!-- //ADD Bus Record Model -->
+		<div class="myForm">
+
+			<div class="modal fade" id="addBus" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Vehicle Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Submit Vehicle Record</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Transport/add-bus-record}">
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Vehicle Name</label>
+											<input name="busName" required type="text"
+												class="form-control rollNo" id="inputEmail4">
+
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Vehicle
+												Number </label> <input name="busNumber" required type="text"
+												class="form-control studentName" id="inputPassword4">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Vehicle
+												Model</label> <input name="busModel" required type="text"
+												class="form-control registrationNo" id="inputPassword4">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Vehicle
+												Type</label> <input name="busType" required type="text"
+												class="form-control registrationNo" id="inputPassword4">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Enter
+												Total Seats Limits</label> <input name="busSeat" required
+												type="number" class="form-control registrationNo"
+												id="inputPassword4">
+										</div>
+										
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Enter
+												Route of the Vehicle</label> <input name="route" required
+												type="text" class="form-control registrationNo"
+												id="inputPassword4">
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Add
+												Vehicle Record</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- //ADD Bus Asign Record Model -->
+		<div class="myForm">
+
+			<div class="modal fade" id="asignBus" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Vehicle Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Asign Vehicle To Driver</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Transport/asign-vehicle}">
+										<input type="hidden" id="busAsignId" name="busId" value=""/>
+										<h3 class="text-center">
+										<label for="inputEmail4" class="form-label">Vehicle Condition</label>
+										</h3>
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Vehicle Engine</label>
+											<input name="engine" required type="text"
+												class="form-control rollNo" id="inputEmail4">
+
+										</div>
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Vehicle Body</label>
+											<input name="body" required type="text"
+												class="form-control rollNo" id="inputEmail4">
+
+										</div>
+										
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Vehicle Tires</label>
+											<input name="tire" required type="text"
+												class="form-control rollNo" id="inputEmail4">
+										</div>
+										
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Vehicle Interior</label>
+											<input name="interior" required type="text"
+												class="form-control rollNo" id="inputEmail4">
+										</div>
+												<h3 class="text-center">
+										<label for="inputEmail4" class="form-label">Driver Details</label>
+										</h3>								
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Driver Name</label>
+											<input name="driverName" required type="text"
+												class="form-control rollNo" id="inputEmail4">
+
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Driver
+												Address </label> <input name="driverAddress" required type="text"
+												class="form-control studentName" id="inputPassword4">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Driver
+												Phone</label> <input name="driverPhone" required type="text"
+												class="form-control registrationNo" id="inputPassword4">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Choose
+												Date</label> <input name="asignDate" required type="date"
+												class="form-control registrationNo" id="inputPassword4">
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Submitt
+												Data</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

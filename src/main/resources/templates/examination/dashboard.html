@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="examination/base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title> Dashboard page</title>
+</head>
+<body>
+	<section>
+		<h1 class="text-center">Welcome To Examination</h1>
+		
+		<div class="row row-cols-1 row-cols-md-2 g-2">
+			<div class="col" >
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Total Results</h5>
+							<h5 class="card-title" th:text="${totalResults}" >New Result</h5>
+						</div>
+					</div>
+			</div>
+			
+			<div class="col" >
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Total Repeat Students</h5>
+							<h5 class="card-title"  th:text="${totalRepeateStudents}">Old Result</h5>
+						</div>
+					</div>
+			</div>
+			
+			<div class="col" >
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Total Improve Students</h5>
+							<h5 class="card-title"  th:text="${totalImproveStudents}">Old Result</h5>
+						</div>
+					</div>
+			</div>
+			
+		</div>
+		
+		
+	</section>	
+</body>
+</html>

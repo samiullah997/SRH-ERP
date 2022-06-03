@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="Inventory/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Products page</title>
+</head>
+<body>
+	<section>
+		<div class="row row-cols-1 row-cols-md-1 g-1">
+			<div class="col">
+				<div class="container text-center"
+					style="text-align: right; margin-bottom: 10px;">
+					<input type="button" id="addbtn" class="btnadd btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#newProduct"
+						value="Add New Product" />
+						
+						<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+				<p th:text="${session.message.content}"></p>
+				<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="p:${products}">
+
+				<div class="card h-100" >
+
+					<!-- 					<a style="text-decoration: none;" th:href="@{/Library/member-books(id=${b.studentsId.id})}"> -->
+					<div class="text-center" style="margin-top: 3%">
+						<img th:src="@{/images/product.png}" class="card-img-top text-center"
+							style="width: 50%; height: 100%;" alt="...">
+					</div>
+					<div class="card-body">
+						<input type="hidden" id="busId" />
+						<h5 class="card-title text-center"
+							th:text="${'Product Name: '+p.productName}">Card title</h5>
+						<p class="card-text text-center"
+							th:text="${'Quantity: '+p.quantity}">Number</p>
+						<p class="card-text text-center"
+							th:text="${'Price: '+p.productPrice}">Number</p>
+						<p class="card-text text-center"
+							th:text="${'Supplier Name: '+p.supplier}">Number</p>
+						<p class="card-text text-center"
+							th:text="${'Supplier Contact: '+p.sContact}">Number</p>
+						<p class="card-text text-center"
+							th:text="${'Supplier Address: '+p.sAddress}">Number</p>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted" th:text="${p.categoriesId.title}"></small>
+						<small class="m-5"> <a type="button" th:href="@{/Inventory/Product-delete(id=${p.id},categoryId=${id})}" style="text-decoration:none;" class="btn-outline-danger rounded badge bg-danger rounded-pill">Delete</a></small>
+							
+
+					</div>
+				</div>
+				<!-- 					</a> -->
+			</div>
+
+
+
+		</div>
+
+		<div class="container text-center mt-3" th:if="${totalPages}>=1">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li th:if="${currentPage != 0}" class="page-item"><a
+						th:href="@{/Inventory/Products(page=${currentPage-1,id=${id}})}"
+						class="page-link" href="#">Previous</a></li>
+					<li th:classappend="${currentPage==i-1?'active':''}"
+						th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a
+						th:href="@{/Inventory/Products(page=${i-1},id=${id})}"
+						class="page-link" href="#"><span th:text="${i}"></span></a></li>
+					<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+						th:href="@{/Inventory/Products(page=${currentPage+1,id=${id}})}"
+						class="page-link" href="#">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="text-center mt-5" th:unless="${totalPages}>=1">
+			<h2>There is No Product Record Fund</h2>
+		</div>
+
+
+		<!-- //ADD Products Model -->
+		<div class="myForm">
+
+			<div class="modal fade" id="newProduct" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Product
+								Record</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Submit Product Record</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Inventory/Product-submit}">
+										<input type="hidden" name="categoriesId" th:value="${id}" />
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Product
+												Name </label> <input name="productName" required type="text"
+												class="form-control rollNo" placeholder="Enter Name here.."
+												id="inputEmail4">
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Product
+												Quantity </label> <input name="quantity" required type="number"
+												class="form-control rollNo"
+												placeholder="Enter Quantity here.." id="inputEmail4">
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Product
+												Measurement</label> <select name="measurement" id="inputState"
+												required class="form-select">
+												<option selected>Choose...</option>
+												<option>Piece</option>
+												<option>Kilogram</option>
+												<option>liter</option>
+											</select>
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Product
+												Price </label> <input name="productPrice" required type="number"
+												class="form-control rollNo" placeholder="Enter Price here.."
+												id="inputEmail4">
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Supplier
+												Name </label> <input name="supplier" required type="text"
+												class="form-control rollNo"
+												placeholder="Enter Supplier Name here.." id="inputEmail4">
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Supplier
+												Contact number </label> <input name="sContact" required type="text"
+												class="form-control rollNo"
+												placeholder="Enter Supplier Contact Number here.."
+												id="inputEmail4">
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Supplier
+												Address </label> <input name="sAddress" required type="text"
+												class="form-control rollNo"
+												placeholder="Enter Supplier Address here.." id="inputEmail4">
+
+										</div>
+										
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Date
+												 </label> <input name="date" required type="date"
+												class="form-control rollNo"
+												 id="inputEmail4">
+
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Add
+												Product</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- //Checkout Products Model -->
+		<div class="myForm">
+
+			<div class="modal fade" id="checkout" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Check Out
+								Product Record</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Checkout Product Record</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Inventory/Product-checkout-submit}">
+										<input type="hidden" name="productId" id="productId" /> <input
+											type="hidden" name="categoriesId" th:value="${id}" />
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Product
+												Name </label> <input name="productName" required readonly
+												type="text" class="form-control rollNo"
+												placeholder="Enter Name here.." id="productName">
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Total
+												available Quantity </label> <input name="quantity" required readonly
+												type="number" class="form-control rollNo"
+												placeholder="Enter Quantity here.." id="quantity"> <input
+												type="hidden" id="tquantity" />
+										</div>
+
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Product
+												Price </label> <input name="productPrice" required readonly
+												type="number" class="form-control rollNo"
+												placeholder="Enter Price here.." id="productPrice">
+											<input type="hidden" id="tPrice" />
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Customer
+												Name </label> <input name="customerName" required type="text"
+												class="form-control rollNo" placeholder="Enter Name here.."
+												id="inputEmail4">
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Quantity
+												Required </label> <input name="requiredQuantity" required
+												type="number" min="1" class="form-control rollNo"
+												placeholder="Enter Price here.." id="requiredQuantity"
+												th:onkeyup="setQuantityChange()">
+
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Selling
+												Price </label> <input name="sellingPrice" required type="number"
+												class="form-control rollNo" placeholder="Enter Price here.."
+												id="sellingPrice" th:onkeyup="setPriceChange()">
+
+										</div>
+
+
+
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Check
+												Out</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

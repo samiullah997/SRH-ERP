@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="examination/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Duty Roster List page</title>
+</head>
+<body>
+	<section>
+		<div class="row row-cols-1 mt-3 row-cols-md-1 g-1">
+			<!-- 			<div class="col"> -->
+			<!-- 				<div class="container text-center" -->
+			<!-- 					style="text-align: right; margin-bottom: 10px;"> -->
+			<!-- 					<input type="button" id="addbtn" class="btnadd btn btn-primary" -->
+			<!-- 						data-bs-toggle="modal" data-bs-target="#HeaderRecord" -->
+			<!-- 						value="Add Date Sheet Header" /> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
+
+			<!--<div class="col">
+				<div class="container text-center"
+					style="text-align: right; margin-bottom: 10px;">
+					<button type="button" id="addbtn" class="btnadd btn btn-primary"
+						onclick="window.print();" value="Print Duty Roster">Print
+						Duty Roster List</button>
+				</div>
+			</div>
+
+		</div>
+-->
+		<div th:if="${session.message}"
+			th:classappend="${session.message.type}" class="alert" role="alert">
+			<p th:text="${session.message.content}"></p>
+			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
+
+		<style>
+@media print {
+	body * {
+		visibility: hidden;
+	}
+	.print-container, .print-container * {
+		visibility: visible;
+	}
+	.print-container {
+		position: absolute;
+		left: 0px;
+		top: 50px;
+	}
+	.btnadd, .dtchange {
+		display: none;
+		visibility: none;
+	}
+}
+</style>
+
+
+		<div class="container text-center print-container table-responsive">
+			<div class="card" th:each="dh:${dateSheetHeaders}">
+				<div class="row  card-header">
+					<div class="col-sm-2"><input type="button" id="addbtn" class="btnadd btn btn-outline-primary"
+						onclick="window.print();" value="Print Duty Roster"/></div>
+						<div class="col-sm-8"><h3 th:text="${'Deparment of '+dh.department}">Department of Computer Science</h3></div>
+					
+				</div>
+				<caption class="text-center">
+					<h5>Shaheed Rashid Hussain Campus, Pabbi</h5>
+				</caption>
+				<caption class="text-center">
+					<h5>
+						Duty Roster Terminal <span th:text="${dh.dateSheetDate}"></span>
+					</h5>
+				</caption>
+				<caption class="text-center">
+					<h5>
+						Duty Roster <span th:text="${dh.dateSheetType}"></span>
+					</h5>
+				</caption>
+				<table class="table caption-top text-center">
+					<thead>
+						<tr>
+							<th scope="col" style="background-color: black; color: white"></th>
+							<th scope="col" style="background-color: black; color: white"
+								th:text="${dh.firstShiftTime}">First Shift Time</th>
+							<th scope="col" style="background-color: black; color: white"
+								th:text="${dh.secondShiftTime}">Second Shift Time</th>
+
+						</tr>
+					</thead>
+					<tbody class="text-center" th:each="d:${dutyRosterRecords}">
+						<tr >
+							<th class="text-center" scope="row"
+								style="background-color: black; color: white"
+								th:text="${d.date}">Thursday <br />20-01-2020
+							</th>
+							<td><span th:text="${d.firstTeacherNameOne}"></span><br /> <span
+								th:text="${d.firstTeacherNameTwo}"></span><br /> <span
+								th:text="${d.firstTeacherNameThree}"></span></td>
+							<td><span th:text="${d.secondTeacherNameOne}"></span><br />
+								<span th:text="${d.secondTeacherNameTwo}"></span><br />
+							<span th:text="${d.secondTeacherNameThree}"></span></td>
+							<td class="dtchange" id="dtchange"><input id="btnChange"
+								type="button" data-bs-toggle="modal"
+								data-bs-target="#dateSheetRecord"
+								class="rosterchangebtn btn btn-outline-primary" value="Change" />
+								<input type="hidden" id="btnChangeId" th:value="${d.id}"
+								class="changebtn btn btn-outline-primary" /></td>
+
+						</tr>
+
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+		<!-- Modal -->
+		<div class="modal  fade " id="dateSheetRecord" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Duty
+							Roster Records</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<!--header button -->
+					<div class="modal-body">
+
+
+						<div class="card">
+							<div class="container card-header text-center">
+								<h2>Duty Roster Records</h2>
+							</div>
+							<div class="card-body">
+								<div class="container">
+									<div th:if="${session.message}"
+										th:classappend="${session.message.type}" class="alert"
+										role="alert">
+										<p th:text="${session.message.content}"></p>
+										<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+									</div>
+
+									<form class="row g-3" action="#"
+										th:object="${dutyRosterRecords}" method="POST"
+										th:action="@{/examination/submit-duty-roster}">
+
+										<input type="hidden" name="id" class="rosterbtnchangeid">
+
+
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												First Shift Teacher 1</label> <select name="firstTeacherNameOne"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="t:${teachers}" th:text="${t.name}">Datastructure-301</option>
+
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												Second shift Teacher 1</label> <select name="secondTeacherNameOne"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="t:${teachers}" th:text="${t.name}">Datastructure-301</option>
+
+											</select>
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												First Shift Teacher 2</label> <select name="firstTeacherNameTwo"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="t:${teachers}" th:text="${t.name}">Datastructure-301</option>
+
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												Second shift Teacher 2</label> <select name="secondTeacherNameTwo"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="t:${teachers}" th:text="${t.name}">Datastructure-301</option>
+
+											</select>
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												First Shift Teacher 3</label> <select name="firstTeacherNameThree"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="t:${teachers}" th:text="${t.name}">Datastructure-301</option>
+
+											</select>
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">
+												Second shift Teacher 3</label> <select name="secondTeacherNameThree"
+												id="inputState" class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="t:${teachers}" th:text="${t.name}">Datastructure-301</option>
+
+											</select>
+										</div>
+
+
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Update</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

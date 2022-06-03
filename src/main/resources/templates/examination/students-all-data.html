@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="examination/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Student All Data page</title>
+</head>
+<body>
+	<section>
+		<div class="row row-cols-1 row-cols-md-3 g-3">
+			<div class="col" >
+				<a style="text-decoration: none;"
+					th:href="@{/examination/semester(batch=${batch})}">
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Category</h5>
+							<h5 class="card-title" >Students Result List</h5>
+						</div>
+					</div>
+				</a>
+			</div>
+			
+			<div class="col" >
+				<a style="text-decoration: none;"
+					th:href="@{/examination/attendance-sheet-list(batch=${batch})}">
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Category</h5>
+							<h5 class="card-title" >Students Attendance List</h5>
+						</div>
+					</div>
+				</a>
+			</div>
+			
+		</div>
+	</section>
+</body>
+</html>

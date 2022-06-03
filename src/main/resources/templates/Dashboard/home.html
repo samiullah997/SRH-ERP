@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Dashboard/base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Welcom To SRH ERP</title>
+</head>
+
+<body>
+	<section>
+		<!--Start video Background-->
+		<div class=" remove-margin">
+			<div class="vid-parent">
+				<video playsinline autoplay muted loop>
+					<source src="videos/bannervideo.mp4" type="">
+				</video>
+				<div class="vid-overlay"></div>
+			</div>
+			<div class="container-fluid vid-content">
+				<h1 class="my-content ">Welcome To Abdul Wali Khan University Mardan (SRH-ERP)</h1>
+				<small class="my-content">Quality Education at Doorstep</small><br /><br />
+				<a th:href="@{/login}" class="btn btn-outline-danger">Get Started</a>
+			</div>
+		</div>
+		<!--End video Background-->
+
+		<!--Start Text Banner-->
+		<div class="container-fluid custom-bg txt-banner">
+			<div class="row bottom-banner">
+				<div class="col-sm">
+					<h5><i class="fas fa-users mr-3"></i>223+ All Staff</h5>
+				</div>
+				<div class="col-sm">
+					<h5><i class="fas fa-university"></i>4 CAMPUSES</h5>
+				</div>
+				<div class="col-sm">
+					<h5><i class="fas fa-certificate mr-3"></i>104 Degree Programs</h5>
+				</div>
+				<div class="col-sm">
+					<h5><i class="fas fa-user-graduate mr-3"></i>13000 Enroll Students</h5>
+				</div>
+				<div class="col-sm">
+					<h5><i class="far fa-address-card mr-3"></i>223 PHD Faculty</h5>
+				</div>
+			</div>
+		</div>
+		<!--End Text Banner-->
+
+		<!-- All Course -->
+		<!--<div class="container mt-5">
+			<h1 class="text-center">All Course</h1>
+			<!-- Start All Course First Card -->
+			<!--<div class="card-deck row mt-4" >
+				<div class="col-md-4" th:each="b:${subjectList}">
+					<a href="#" class="btn " style="text-align:left; padding:0px; margin:0px;">
+						<div class="card mt-2" style="width:300px; height:415px">
+							<div class="card-header">
+								<h3 class="text-center">Title</h3>
+								<p class="text-center" th:text="${b.subjectName}"></p>
+							</div>
+							<div class="text-center">
+							<img src="images/book.png" style="width:200px; height:200px"  class="card-img-top" alt="Python" />
+							</div>
+							<div class="card-body">
+								<p class="card-text" th:text="${'Subject Code: '+b.subjectCode}">porem ipsum dolor sit amet consectetur adipisicing elit. Facilis,nemo.
+								</p>
+							</div>
+							<div class="card-footer">
+								<p class="card-text d-inline" >Subject Cradit Hour: <small th:text="${b.subjectCraditHour}"></small><span
+										class="font-weight-bolder" th:text="${', '+'Semester: '+b.semester}">
+										</span></p>
+							</div>
+						</div>
+					</a>
+				</div>
+			<div class="text-center m-2">
+				<a th:href="@{/all-subjects}" class="btn btn-danger btn-sm">View All Courses</a>
+			</div>-->
+		<!--</div>-->
+		<!-- End All Course -->
+		
+		<!--Start Contact Us-->
+		<div class="container mt-4" id="contact">
+			<h2 class="text-center mb-4">Contact Us</h2>
+			<!--Heading-->
+			<div class="row">
+			<!--Start Contact Us First Column-->
+				<div class="col-md-8">
+					<form  method="POST" th:action="@{/st-feedback}">
+						<input type="text" class="form-control" required name="name" placeholder="Name"><br/>
+						<input type="text" class="form-control" required name="subject" placeholder="Subject"><br/>
+						<input type="email" class="form-control" required name="email" placeholder="E-mail"><br/>
+						<textarea name="message" required
+									type="text" style="height: 100px;" class="form-control"
+									placeholder="Enter You Message Here..." id="address"
+									aria-describedby="emailHelp"></textarea><br/>
+						<input type="submit" class="btn btn-primary" name="submit" value="Send"><br/>
+					</form>
+				</div>
+				<!--End Contact Us First Column-->
+				<!--Start Contact Us Second Column-->
+				<div class="col-md-4 stripe text-white text-center mt-5">
+					<h4>SRH-ERP</h4>
+					<p>SRH-ERP,
+					Near in Pabbi -432332<br/>
+					Phone: +00000000<br/>
+					www.awkum.com
+					</p>
+				</div>
+				<!--End Contact Us First Column-->
+			</div>
+		<!--Heading-->
+		</div>
+		<!--End Contact Us-->
+		
+		<!--Start Students Testimontial-->
+		<!--<div class="container-fluid mt-5" style="background-color:#4B7289" id="feedback">
+			<h1 class="text-center text-white testyheading p-4">Student's Feedback</h1>
+			<div class="row" >
+				<div class="col-md-4 owl-carousel" >
+				<a href="#" class="btn item" style="text-align:left; padding:0px; margin:0px;" th:each="sf:${studentFeedbackList}">
+						<div class="card mb-5" style="width:300px; height:420px">
+							<div class="card-header" >
+								<h5 class="card-title text-center" th:text="${'Student Name: '+sf.name}">Lear Python Easy Way</h5>
+
+							</div>
+							<div class="card-body text-center">
+								<div class="text-center">
+									<img src="images/user.png"  class="card-img-top" alt="Python" />
+								</div>
+								<p class="card-text description" th:text="${'Message: '+sf.message}">porem ipsum dolor sit amet consectetur adipisicing elit. Facilis,nemo.</p>
+							</div>
+							</div>
+							<div class="card-footer">
+							</div>
+						</div>
+					</a>					
+				</div>
+			</div>
+		</div>-->
+		<!--End Students Testimontial-->
+		
+		<!--Start Social Follow-->
+		<div class="container-fluid custom-bg mt-5">
+			<div class="row text-white text-center p-1">
+				<div class="col-sm">
+					<a style="text-decoration: none;" class="text-white social-hover" href="#"><i class="fab fa-facebook-f"></i>Facebook</a>
+				</div>
+				<div class="col-sm">
+					<a style="text-decoration: none;" class="text-white social-hover" href="#"><i class="fab fa-twitter"></i>Twitter</a>
+				</div>
+				<div class="col-sm">
+					<a style="text-decoration: none;" class="text-white social-hover" href="#"><i class="fab fa-whatsapp"></i>Whatsapp</a>
+				</div>
+			</div>
+		</div>
+		<!--End Social Follow-->
+		
+		<!--Start About Section-->
+		<div class="container-fluid p-4" style="background-color:#E9ECEF">
+			<div class="container" style="background-color:#E9ECEF">
+				<div class="row text-center">
+					<div class="col-sm">
+						<h5>About Us</h5>
+						<p class="description" width="10%" height="10%">The University has introduced all the modern departments, teaching basic sciences, social and applied sciences with a credible base of quality education and research to equip the minds of young scholars with worthwhile objectives of life.</p>
+					</div>
+					<div class="col-sm">
+						<h5>Category</h5>
+						<a class="text-dark" href="#">Web Development</a><br/>
+						<a class="text-dark" href="#">Web Designing</a><br/>
+						<a class="text-dark" href="#">Android app Development</a><br/>
+						<a class="text-dark" href="#">IOS Development</a><br/>
+						<a class="text-dark" href="#">Data Analysis</a><br/>
+					</div>
+					<div class="col-sm">
+						<h5>Contact Us</h5>
+						<p>SRH-ERP<br/> Near Pabbi Station<br/>Phone: 00000000</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--End About Section-->
+		
+		<!--Start Footer-->
+		<footer class="container-fluid custom-bg text-center p-2">
+		<small class="text-white">Copyright &copy; 2021|| Designed By Samiullah Rashid Menhas & Hamza Khan <br/> Supervised By Dr. Adil Khan Coordinator</small>
+		</footer>
+		<!--End Footer-->
+		
+
+	</section>
+</body>
+
+</html>

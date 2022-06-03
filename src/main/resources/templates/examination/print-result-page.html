@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Document</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/jquery-3.5.1.js}"></script>
+
+<!-- Bootstrap CSS -->
+<!--     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+<link rel="stylesheet" href="" th:href="@{/css/style.css}" />
+<link rel="stylesheet" href="" th:href="@{/css/bootstrap.css}" />
+<link rel="stylesheet" href="" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<style>
+@page{
+size: A6 landscape;
+}
+.card{
+display:flex;
+
+font-size:12px;
+margin:0;
+padding:0;
+}
+
+</style>
+
+	<div class="card">
+	<div class="text-center">
+					<div class="text-center card-header">
+					<div class="row mt-2 ">
+						
+						<div class="col"><h3 >Department of Computer Science</h3></div>
+						
+						
+					</div>
+					
+				</div>
+				<caption class="text-center">
+					<h5>Shaheed Rashid Hussain Campus, Pabbi</h5>
+				</caption>
+				<caption class="text-center">
+					<h5>
+						<span th:text="${semester+' Semester Result List'}"> </span>
+					</h5>
+				</caption>
+				<caption class="text-center">
+					<h5 >
+						 
+						 <span th:text="${'Batch: '+batch+' '}"></span><span ></span>
+					</h5>
+				</caption>
+				</div>
+				
+				
+
+		<table border="1" align="center" class="table text-center" style="font-size:55%;">
+			<th></th>
+			<th th:each="s:${subjects}" th:text="${s.subjectCode}">Subject
+				Code</th>
+
+			<tr>
+				<td>
+					<table border="1" align="center" class="table text-center">
+						<td >RollNo</td>
+						<td >Name</td>
+						<tr th:each="r:${resultLists}">
+							<td th:text="${r.rollNo}">Roll No</td>
+							<td th:text="${r.studentName}">Name</td>
+						</tr>
+					</table>
+				</td>
+
+				<td>
+					<table border="1" align="center" class="table text-center">
+						<td>Marks</td>
+						<td>Value</td>
+						<td>GP</td>
+
+						<tr th:each="s:${resultLists1}">
+							<td th:text="${s.marks}"></td>
+							<td th:text="${s.value}"></td>
+							<td th:text="${s.gp}"></td>
+						</tr>
+
+					</table>
+				</td>
+
+				<td>
+					<table border="1" align="center" class="table text-center">
+						<td>Marks</td>
+						<td>Value</td>
+						<td>GP</td>
+
+						<tr th:each="s:${resultLists2}">
+							<td th:text="${s.marks}"></td>
+							<td th:text="${s.value}"></td>
+							<td th:text="${s.gp}"></td>
+						</tr>
+
+					</table>
+				</td>
+				<td>
+					<table border="1" align="center" class="table text-center">
+						<td>Marks</td>
+						<td>Value</td>
+						<td>GP</td>
+
+						<tr th:each="s:${resultLists3}">
+							<td th:text="${s.marks}"></td>
+							<td th:text="${s.value}"></td>
+							<td th:text="${s.gp}"></td>
+						</tr>
+
+					</table>
+				</td>
+
+				<td>
+					<table border="1" align="center" class="table text-center">
+						<td>Marks</td>
+						<td>Value</td>
+						<td>GP</td>
+
+						<tr th:each="s:${resultLists4}">
+							<td th:text="${s.marks}"></td>
+							<td th:text="${s.value}"></td>
+							<td th:text="${s.gp}"></td>
+						</tr>
+
+					</table>
+				</td>
+
+				<td>
+					<table border="1" align="center" class="table text-center">
+						<td>Marks</td>
+						<td>Value</td>
+						<td>GP</td>
+
+						<tr th:each="s:${resultLists5}">
+							<td th:text="${s.marks}"></td>
+							<td th:text="${s.value}"></td>
+							<td th:text="${s.gp}"></td>
+						</tr>
+
+					</table>
+				</td>
+
+				<td>
+					<table border="1" align="center" class="table text-center">
+						<td>Marks</td>
+						<td>Value</td>
+						<td>GP</td>
+						<tr th:each="s:${resultLists6}">
+							<td th:text="${s.marks}"></td>
+							<td th:text="${s.value}"></td>
+							<td th:text="${s.gp}"></td>
+						</tr>
+
+
+					</table>
+				</td>
+
+				<td>
+					<table border="1" align="center" class="table text-center">
+						<td>GPA</td>
+						<td>CGPA</td>
+						<td>Remarks</td>
+						<tr th:each="g:${allGpaRecords}">
+						<td th:text="${#numbers.formatDecimal(g.GPA,1,'COMMA',2,'POINT')}">GPA</td>
+						<td th:text="${#numbers.formatDecimal(g.CGPA,1,'COMMA',2,'POINT')}" >CGPA</td>
+						<td>Remarks</td>
+						
+						</tr>
+						
+						
+						</tr>
+
+
+					</table>
+				</td>
+
+			</tr>
+
+
+
+		</table>
+	</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Inventory/base::layout(~{::section})">
+<head>
+	<meta charset="UTF-8" />
+	<title> Dashboard page</title>
+</head>
+<body>
+	<section>
+		<h1 class="text-center">Welcome To Inventory</h1>
+		
+		<div class="row row-cols-1 row-cols-md-2 g-2">
+			<div class="col" >
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Total Categories</h5>
+							<h5 class="card-title" th:text="${allCategories}" >New Result</h5>
+						</div>
+					</div>
+			</div>
+			
+			<div class="col" >
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Total Products</h5>
+							<h5 class="card-title"  th:text="${allProducts}">Old Result</h5>
+						</div>
+					</div>
+			</div>
+			
+			
+		</div>
+		
+		
+	</section>		
+</body>
+</html>

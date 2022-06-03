@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="examination/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Seat No page</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+
+
+			<div class="card">
+				<div class="container card-header text-center">
+					<h2>Student Seat No List</h2>
+				</div>
+				<div class="card-body">
+					<div class="container">
+
+						<form class="row g-3" action="#" th:object="${students}"
+							enctype="multipart/form-data" method="POST"
+							th:action="@{/examination/print-seat-no-list}">
+
+							<div class="col-md-6">
+								<label for="inputDepartment" class="form-label">Choose
+									Date</label> <select name="date" id="inputState" required
+									class="form-select">
+									<option selected disabled>Choose...</option>
+									<option th:each="d:${dateSheetRecords}" th:text="${d.date}">Computer
+										Science</option>
+
+								</select>
+							</div>
+
+							<div class="col-md-6">
+								<label for="inputDepartment" class="form-label">Choose
+									Shift Time</label> <select name="time" id="inputState" required
+									class="form-select">
+									<option selected disabled>Choose...</option>
+									<option th:each="h:${dateSheetHeaders}"
+										th:text="${h.firstShiftTime}">Computer Science</option>
+									<option th:each="h:${dateSheetHeaders}"
+										th:text="${h.secondShiftTime}">Computer Science</option>
+
+								</select>
+							</div>
+
+							<div class="col-md-6">
+								<label for="inputDepartment" class="form-label">Choose
+									First Paper</label> <select name="firstPaper" id="inputState" required
+									class="form-select">
+									<option selected disabled>Choose...</option>
+									<option th:each="d:${dateSheetRecords}"
+										th:text="${d.firstPaperNameOne}">Computer Science</option>
+									<option th:each="d:${dateSheetRecords}"
+										th:text="${d.secondPaperNameOne}">Computer Science</option>
+										<option th:each="d:${dateSheetRecords}"
+										th:text="${d.firstPaperNameTwo}">Computer Science</option>
+										<option th:each="d:${dateSheetRecords}"
+										th:text="${d.secondPaperNameTwo}">Computer Science</option>
+
+								</select>
+							</div>
+							
+							<div class="col-md-6">
+								<label for="inputDepartment" class="form-label">Choose
+									Second Paper</label> <select name="secondPaper" id="inputState" required
+									class="form-select">
+									<option selected disabled>Choose...</option>
+									<option th:each="d:${dateSheetRecords}"
+										th:text="${d.firstPaperNameOne}">Computer Science</option>
+									<option th:each="d:${dateSheetRecords}"
+										th:text="${d.secondPaperNameOne}">Computer Science</option>
+										<option th:each="d:${dateSheetRecords}"
+										th:text="${d.firstPaperNameTwo}">Computer Science</option>
+										<option th:each="d:${dateSheetRecords}"
+										th:text="${d.secondPaperNameTwo}">Computer Science</option>
+
+								</select>
+							</div>
+							
+							<div class="col-md-6">
+								<label for="inputDepartment" class="form-label">Choose
+									First Batch</label> <select name="firstBatch" id="inputState" required
+									class="form-select">
+									<option selected disabled>Choose...</option>
+									<option th:each="b:${batch}"
+										th:text="${b.batch}">Computer Science</option>
+								</select>
+							</div>
+							
+							<div class="col-md-6">
+								<label for="inputDepartment" class="form-label">Choose
+									Second Batch</label> <select name="secondBatch" id="inputState" required
+									class="form-select">
+									<option selected disabled>Choose...</option>
+									<option th:each="b:${batch}"
+										th:text="${b.batch}">Computer Science</option>
+								</select>
+							</div>
+
+							<div class="col-12 text-center">
+								<button type="submit" name="" class="btn btn-outline-primary">Generate</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+			<!-- 			<div class="container text-center " -->
+			<!-- 				style="font-size: 15px; margin-bottom: 50px;"> -->
+
+			<!-- 				<div class="card" style="border-radius: 3%;"> -->
+			<!-- 					<div class="container text-center " -->
+			<!-- 						style="font-size: 15px; margin-bottom: 50px;"> -->
+
+
+			<!-- 						<div class="row row-cols-1 row-cols-md-3 g-3"> -->
+			<!-- 							<div class="col" th:each="d:${dateSheetRecords}"> -->
+			<!-- 								<a style="text-decoration: none;" -->
+			<!-- 									th:href="@{/examination/seat-no-shift-time}"> -->
+			<!-- 									<div class="card" -->
+			<!-- 										style="background-color: maroon; border-radius: 5%;"> -->
+			<!-- 										<div class="card-body text-center text-white mt-5 mb-5"> -->
+			<!-- 											<h5>Seat No List Date</h5> -->
+			<!-- 											<h5 class="card-title" th:text="${d.date}">Batch-17</h5> -->
+			<!-- 										</div> -->
+			<!-- 									</div> -->
+			<!-- 								</a> -->
+			<!-- 							</div> -->
+			<!-- 						</div> -->
+
+
+
+			<!-- 					</div> -->
+
+			<!-- 				</div> -->
+			<!-- 			</div> -->
+
+
+		</div>
+	</section>
+</body>
+</html>

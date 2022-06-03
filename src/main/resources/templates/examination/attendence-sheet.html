@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="examination/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Attendence Sheet page</title>
+</head>
+<body>
+	<section>
+		<div class="container text-center "
+			style="font-size: 15px; margin-bottom: 50px;">
+			<div th:if="${session.message}"
+				th:classappend="${session.message.type}" class="alert" role="alert">
+				<p th:text="${session.message.content}"></p>
+				<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+			<div class="card">
+			<table class="table rTable caption-top">
+				<theader colspan="10"
+					style="margin-top:10px;margin-right:50px; font-size:30px;font-family:bold;">Attendence
+				Sheet List</theader>
+				<thead>
+					<tr>
+						<th scope="col">S.No</th>
+						<th scope="col">Roll No</th>
+						<th scope="col">Student Name</th>
+						<th scope="col">Father Name</th>
+						<th scope="col">Department</th>
+						<th scope="col">Book Ref No</th>
+						<th scope="col">Sign</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="e:${examList}">
+						<td th:text="${e.id}"></td>
+						<td th:text="${e.rollNo}">Bcs17-33</td>
+						<td th:text="${e.studentName}">Samiullah</td>
+						<td th:text="${e.fatherName}">Shah Jehan</td>
+						<td th:text="${e.department}">Computer Science</td>
+						<td>_____________________</td>
+						<td>_____________________</td>
+
+					</tr>
+				</tbody>
+			</table>
+			<div class="container text-center">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${currentPage != 0}" class="page-item"><a
+							th:href="@{/examination/attendence-sheet(page=0,exam=${exam})}"
+							class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}"
+							class="page-item"><a
+							th:href="@{/examination/attendence-sheet(page=${i-1},exam=${exam})}"
+							class="page-link" href="#"><span th:text="${i}"></span></a></li>
+						<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+							th:href="@{/examination/attendence-sheet(page=${currentPage+1},exam=${exam})}"
+							class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

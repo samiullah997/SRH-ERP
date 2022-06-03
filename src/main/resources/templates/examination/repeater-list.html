@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="examination/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is repeater List page</title>
+</head>
+<body>
+	<section>
+		<div class="container text-center "
+			style="font-size: 15px; margin-top: 50px; margin-bottom: 50px;">
+			<div th:if="${session.message}"
+				th:classappend="${session.message.type}" class="alert" role="alert">
+				<p th:text="${session.message.content}"></p>
+				<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+			<card class="card">
+			<table class="table table-hover caption-top">
+				<theader colspan="10"
+					style="margin-top:10px;margin-right:50px; font-size:30px;font-family:bold;">Repeater
+				List</theader>
+				<thead
+					style="margin-top: 10px; margin-right: 50px; font-size: 13px; font-family: bold;">
+					<tr>
+						<th scope="col">#Id</th>
+						<th scope="col">Roll No</th>
+						<th scope="col">Student Name</th>
+						<th scope="col">Registration No</th>
+						<th scope="col">Father Name</th>
+						<th scope="col">Semester</th>
+						<th scope="col">Deparment</th>
+						<th scope="col">Paper</th>
+						<th scope="col">Marks</th>
+						<th scope="col">Exam</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="r:${resultList}">
+						<th scope="row" id="id" th:text="${r.id}">1</th>
+						<td id="rollNo" th:text="${r.rollNo}">Bcs17-33</td>
+						<td th:text="${r.studentName}">Samiullah</td>
+						<td th:text="${r.registrationNo}">AWKUM-17F-72890</td>
+						<td th:text="${r.fatherName}">Shah Jehan</td>
+						<td th:text="${r.semester}">7th</td>
+						<td th:text="${r.department}">Computer Science</td>
+						<td th:text="${r.paperName}">Probability and Statistics</td>
+						<td th:text="${r.marks}">57</td>
+						<td th:text="${r.status}">57</td>
+						<td><a th:if="${r.paperStatus}!=Repeated" th:text="Repeat"
+							data-bs-toggle="modal" data-bs-target="#repeatPaper"
+							class="btnRepeat btn btn-outline-primary" th:value="Repeat">Repeat</a>
+
+							<p th:unless="${r.paperStatus}!=Repeated"
+								class="btn-outline-primary" data-bs-toggle="modal">Repeated</p>
+							<input type="hidden" id="id" th:value="${r.id}" /> <input
+							type="hidden" id="rollNo" th:value="${r.rollNo}" /> <input
+							type="hidden" id="studentName" th:value="${r.studentName}" /> <input
+							type="hidden" id="registrationNo" th:value="${r.registrationNo}" />
+							<input type="hidden" id="fatherName" th:value="${r.fatherName}" />
+							<input type="hidden" id="semester" th:value="${r.semester}" /> <input
+							type="hidden" id="department" th:value="${r.department}" /> <input
+							type="hidden" id="status" th:value="${r.status}" /> <input
+							type="hidden" id="batch" th:value="${r.batch}" /> <input
+							type="hidden" id="paperName" th:value="${r.paperName}" /> <input
+							type="hidden" id="courseCode" th:value="${r.courseCode}" /></td>
+					</tr>
+
+				</tbody>
+			</table>
+
+			<!--pagination -->
+			<div class="container text-center">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${currentPage != 0}" class="page-item"><a
+							th:href="@{'/examination/repeater-list/'+${currentPage-1}}"
+							class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}"
+							class="page-item"><a
+							th:href="@{'/examination/repeater-list/'+${i-1}}" class="page-link"
+							href="#"><span th:text="${i}"></span></a></li>
+						<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+							th:href="@{'/examination/repeater-list/'+${currentPage+1}}"
+							class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+
+			</card>
+		</div>
+
+		<div class="myForm">
+			<!-- Modal -->
+			<div class="modal fade" id="repeatPaper" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Add Paper
+								Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Submit Paper Fee</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/user/paper-repeat}">
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Student
+												Roll No </label> <input name="rollNo" required type="text"
+												class="form-control rollNo" readonly id="inputEmail4">
+											<input type="hidden" name="id" class="id">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Student
+												Name </label> <input name="studentName" required type="text"
+												class="form-control studentName" readonly
+												id="inputPassword4">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Student
+												Registration No </label> <input name="registrationNo" required
+												type="text" class="form-control registrationNo" readonly
+												id="inputPassword4">
+										</div>
+										<div class="col-6">
+											<label for="inputAddress" class="form-label">Father
+												Name </label> <input name="fatherName" required type="text"
+												class="form-control fatherName" readonly id="inputAddress">
+										</div>
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Semester</label>
+											<input name="semester" type="text" id="inputState" readonly
+												class="form-control semester" required />
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Department</label>
+											<input name="department" type="text" id="inputState" readonly
+												class="form-control department" required />
+										</div>
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Batch </label> <input
+												name="batch" required readonly type="text"
+												class="form-control batch" id="inputCity">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Fee
+												Type</label> <input name="feeType" type="text" value="repeat"
+												readonly id="inputState" class="form-control" required />
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Total Fee </label>
+											<input name="totalFee" required type="number"
+												class="form-control" id="inputCity">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Fee To be
+												Sumbitted </label> <input name="submittedFee" required type="number"
+												class="form-control" id="inputCity">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Fee
+												Submitted Date </label> <input name="feeSumbmittedDate" required
+												type="date" class="form-control" id="inputCity">
+										</div>
+
+
+										<div class="col-md-6">
+											<input name="status" required type="hidden"
+												class="form-control status" id="inputCity">
+										</div>
+										<div class="col-md-6">
+											<input name="paperName" required type="hidden"
+												class="form-control paperName" id="inputCity">
+										</div>
+										<div class="col-md-6">
+											<input name="courseCode" required type="hidden"
+												class="form-control courseCode" id="inputCity">
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Repeat</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

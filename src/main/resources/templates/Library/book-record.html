@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="Library/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Book Record page</title>
+</head>
+<body>
+	<section>
+		<!--<div class="row row-cols-1 row-cols-md-1 g-1">
+			<div class="col">
+				<div class="container text-right"
+					style="text-align: right; margin-bottom: 10px;">
+					<input type="button" id="addbtn" class="btnadd btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#addBook" value="Add Book" />
+				</div>
+			</div>
+
+		</div>-->
+
+
+		<div class="container text-center "
+			style="font-size: 15px; margin-bottom: 50px;">
+			<div th:if="${session.message}"
+				th:classappend="${session.message.type}" class="alert" role="alert">
+				<p th:text="${session.message.content}"></p>
+				<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+
+
+
+			<card class="card container">
+			<div class="card-header row">
+					<div class="col-sm-10">
+						<h3>AllBooks</h3>
+					</div>
+					<div class="col-sm-1 text-right"><input type="button" id="addbtn" class="btnadd btn btn-outline-success"
+						data-bs-toggle="modal" data-bs-target="#addBook" value="Add Book" />
+					</div>
+				</div>
+			<table class="table rTable caption-top">
+				<!--search -->
+				
+				<div class="search-container my-4 mx-4 ">
+					<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Search</span>
+					<input onkeyup="searchBooks()" id="search-input" type="text" class="form-control" placeholder="Search Book by Name" />
+					</div>
+					<div class="search-result">
+						<!--Result Goes Here -->
+					</div>
+				</div>
+				
+				<thead>
+					<tr>
+						<th scope="col">Book ID</th>
+						<th scope="col">Book Name</th>
+						<th scope="col">Author Name</th>
+						<th scope="col">Edition No</th>
+						<th scope="col">Department</th>
+						<th scope="col">Book Quantity</th>
+						<th scope="col">Book Status</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="b:${books}">
+						<td th:text="${b.id}">124</td>
+						<input type="hidden" id="bookId" th:value="${b.id}" />
+						<td th:text="${b.title}">Web Development</td>
+						<td th:text="${b.autherName}">Rashid Menhas</td>
+						<td th:text="${b.edition}">2nd</td>
+						<td th:text="${b.department}">Computer Science</td>
+						<td th:text="${b.quantity+'/'+b.totalQuantity}" id="bookQuantity">10</td>
+						<td th:text="${b.availibile}">Present</td>
+
+						<td th:if="${b.availibile=='Available'}"><input type="button"
+							class="btn btn-outline-primary issueBook" data-bs-toggle="modal"
+							data-bs-target="#issueBook" value="Issue" /> <input
+							type="hidden" th:value="${b.id}" id="getIssueBookId" /></td>
+						<td th:unless="${b.availibile=='Available'}"><a
+							href="#"> <input
+								type="button" class="btn btn-primary returnBook" value="No More Books" />
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="container text-center" th:if="${totalPages}>=1">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${currentPage != 0}" class="page-item"><a
+							th:href="@{/Library/book-record(page=${currentPage-1})}"
+							class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}"
+							class="page-item"><a
+							th:href="@{/Library/book-record(page=${i-1})}" class="page-link"
+							href="#"><span th:text="${i}"></span></a></li>
+						<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+							th:href="@{/Library/book-record(page=${currentPage+1})}"
+							class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div th:unless="${totalPages}>=1">
+				<h2>There is No Data</h2>
+			</div>
+			</card>
+		</div>
+
+		<!-- //ADD Book Modal -->
+		<div class="myForm">
+
+			<div class="modal fade" id="addBook" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Book Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Submit Book Record</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Library/add-book-submit}">
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Book Name</label>
+											<input name="title" required type="text"
+												class="form-control rollNo" id="inputEmail4">
+
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Author
+												Name </label> <input name="autherName" required type="text"
+												class="form-control studentName" id="inputPassword4">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Edition
+												No</label> <input name="edition" required type="text"
+												class="form-control registrationNo" id="inputPassword4">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Quantity</label> <input name="quantity" required type="number"
+												class="form-control registrationNo" id="inputPassword4">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Availability</label>
+											<select name="availibile" id="inputState" required
+												class="form-select">
+												<option selected>Choose...</option>
+												<option>Available</option>
+												<option>Not Available</option>
+											</select>
+										</div>
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Department</label>
+											<select name="department" id="inputState" required
+												class="form-select">
+												<option selected>Choose...</option>
+												<option>Bachelor of Computer Science</option>
+												<option>Bachelor of Business Administration</option>
+											</select>
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Add
+												Book</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Issue Book Modal -->
+		<div class="myForm">
+
+			<div class="modal fade" id="issueBook" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Book Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Issue Book</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Library/issue-book}">
+										<input type="hidden" name="bookQuantity" id="bookQuantity" value="" />
+										<div class="col-md-12">
+											<label for="inputEmail4" class="form-label">Choose
+												Student Name</label> <select name="studentsId" id="inputState"
+												required class="form-select">
+												<option selected>Choose...</option>
+												<option th:each="s:${students}"
+													th:text="${s.firstName+' '+s.lastName+' '+s.rollNo}" th:value="${s.id}">Computer
+													Science</option>
+
+											</select>
+										</div>
+
+										<input type="hidden" name="bookId" class="setBookId" value="" />
+
+										<div class="col-12 text-center">
+											<button type="submit" class="btn btn-outline-primary">Issue
+												Book</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

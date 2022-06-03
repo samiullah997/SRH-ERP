@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Accounting/base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Welcom To SRH ERP</title>
+	<style>
+		.invoice-title h2,
+		.invoice-title h3 {
+			display: inline-block;
+		}
+
+		.table>tbody>tr>.no-line {
+			border-top: none;
+		}
+
+		.table>thead>tr>.no-line {
+			border-bottom: none;
+		}
+
+		.table>tbody>tr>.thick-line {
+			border-top: 2px solid;
+		}
+		
+	</style>
+</head>
+
+<body>
+
+	<section>
+	
+	<style>
+@media print {
+			body *{
+				visibility: hidden;
+			}
+			.card {
+				position: absolute;
+				left: 0px;
+				top: 50px;
+			}
+
+			.card * {
+				visibility: visible;
+			}
+			.btn {
+				display: none;
+				visibility: none;
+			}
+			.startDate{
+				display:none;
+				
+			}
+			.endDate{
+			display:none;
+			}
+		}
+
+</style>
+		<div class="container card ">
+						<div class="mb-3">
+						
+						<form  class="row g-3"  
+						th:action="@{/Accounting/balance-sheet-search}" method="POST">
+						<div class="col-md-5 startDate">
+							<label for="inputEmail4" class="form-label">Start Date</label> <input
+								name="startDate" required type="date" class="form-control"
+								id="inputEmail4">
+						</div>
+						<div class="col-md-5 endDate">
+							<label for="inputPassword4" class="form-label">End Date</label>
+							<input name="endDate" required type="date" class="form-control"
+								id="inputPassword4">
+						</div>
+						<div class="col-md-2 mt-5">
+							<input name="submit" type="submit"  class="btn btn-outline-primary " value="Submit"
+								id="inputPassword4">
+						</div>
+						</form>
+						
+						</div>
+		</div>
+		<div class="card print-card text-center">
+			<div class="card-body">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="invoice-title text-center">
+								<h2 >Abdul Wali Khan University Mardan SRH-Pabbi</h2>
+								<h3 class="pull-right">12/12/2021</h3>
+							</div>
+							<hr>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title text-center"><strong>Balance Sheet</strong></h3>
+								</div>
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table table-condensed">
+											<thead>
+												<tr>
+													<td><strong>Current Assets</strong></td>
+													<td class="text-center"><strong></strong></td>
+													<td class="text-right"><strong>Totals</strong></td>
+												</tr>
+											</thead>
+											<tbody>
+												<!-- foreach ($order->lineItems as $line) or some such thing here -->
+												<tr>
+													<td>Semester Fee</td>
+													<td class="text-center"></td>
+													
+													<td class="text-right" th:text="${'Rs: '+totalSemesterFee}">$10.99</td>
+												</tr>
+												<tr>
+													<td>Registration Fee</td>
+													<td class="text-center"></td>
+													
+													<td class="text-right" th:text="${'Rs: '+totalRegistrationFee}">$60.00</td>
+												</tr>
+												<tr>
+													<td>Rep/impr Paper Fee</td>
+													<td class="text-center" ></td>
+													
+													<td class="text-right" th:text="${'Rs: '+grossIncome}">$600.00</td>
+												</tr>
+												
+												<tr>
+													<td>Inventory</td>
+													<td class="text-center"></td>
+													
+													<td class="text-right" th:text="${'Rs: '+totalProductPrice}">$600.00</td>
+												</tr>
+												
+												
+												<tr>
+													<td class="no-line"><strong>Total Assets</strong></td>
+													
+													<td class="no-line text-center"></td>
+													<td class="no-line text-right"><strong th:text="${'Rs: '+totalAssets}">$685.99</strong></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title text-center"><strong></strong></h3>
+								</div>
+								<div class="panel-body">
+									<div class="table-responsive">
+										<table class="table table-condensed">
+											<thead>
+												<tr>
+													<td><strong>Current Liabilities</strong></td>
+													<td class="text-center"><strong></strong></td>
+													<td class="text-right"><strong>Totals</strong></td>
+												</tr>
+											</thead>
+											<tbody>
+												<!-- foreach ($order->lineItems as $line) or some such thing here -->
+												<tr>
+													<td>Inventory</td>
+													<td class="text-center"></td>
+													
+													<td class="text-right" th:text="${'Rs: '+totalProductPrice}">$10.99</td>
+												</tr>
+												<tr>
+													<td>Vehicle Mentainance</td>
+													<td class="text-center"></td>
+													
+													<td class="text-right" th:text="${'Rs: '+totalBusMaintenance}">$60.00</td>
+												</tr>
+												
+												
+												<tr>
+													<td class="no-line"><strong>Total Liabilities</strong></td>
+													
+													<td class="no-line text-center"></td>
+													<td class="no-line text-right"><strong th:text="${'Rs: '+totalLaibilities}">$685.99</strong></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+
+
+			</div>
+			<div class="text-center">
+			<input class="btn btn-outline-primary btn-sm" style="width:10%;" onclick="window.print();" value="print"/>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

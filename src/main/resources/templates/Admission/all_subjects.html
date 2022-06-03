@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="Admission/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Book page</title>
+</head>
+<body>
+	<section>
+		<div class="card">
+		<div class="card-header">
+		<div class="row">
+						<!-- <div class="col-md-2 order-first border-success"><input type="button" id="addbtn" class=" border-success btnadd btn btn-outline-primary" data-bs-toggle="modal"
+							data-bs-target="#addStudentFee" value="Add Fee" /></div> -->
+						<div class="col border-success text-center" ><h3 class="border-success" >Subjects Record</h3></div>
+						<div class="col-md-2 order-last ">
+						 <input type="button" id="addbtn" data-bs-toggle="modal" data-bs-target="#addSubject" class="border-success btnadd btn btn-outline-primary" value="Add Subjects" />
+					 	</div>
+					</div>
+		</div>
+		
+		<div class="card-body" >
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="s:${allSubjects}">
+				<div class="card h-100">
+					<div class="text-center" style="margin-top: 3%">
+						<img th:src="@{/images/book.png}" class="card-img-top text-center"
+							style="width: 50%; height: 80%;" alt="...">
+					</div>
+					<div class="card-body">
+						<h5 class="card-title text-center" th:text="${'Title: '+s.subjectName}" >Card title</h5>
+						<h6 class="card-text text-center" th:text="${'Semester: '+s.semester}"></h6>
+						<p class="card-text text-center" th:text="${'Cradit Hour: '+s.subjectCraditHour}"></p>
+						<p class="card-text text-center" th:text="${'Subject Code: '+s.subjectCode}"></p>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted" th:text="${'Issued Date: '+#dates.format(s.date, 'dd-MMM-yyyy')}">Last updated 3 mins ago</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+		</div>
+		
+		<div class="container text-center mt-3" th:if="${totalPages}>=1">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${currentPage != 0}" class="page-item"><a
+							th:href="@{/Admission/all-subjects(page=${currentPage-1})}"
+							class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}"
+							class="page-item"><a
+							th:href="@{/Admission/all-subjects(page=${i-1})}" class="page-link"
+							href="#"><span th:text="${i}"></span></a></li>
+						<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+							th:href="@{/Admission/all-subjects(page=${currentPage+1})}"
+							class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="text-center mt-5" th:unless="${totalPages}>=1">
+				<h2>There is No Issue Book</h2>
+			</div>
+			
+			
+			
+			<div class="myForm">
+
+			<div class="modal fade" id="addSubject" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Add Subject
+								Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Subject Record</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Admission/submit-subject}">										
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Subject Name</label>
+											<input name="subjectName" required type="text"
+												class="form-control" id="inputCity">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Semester</label>
+											<select name="semester" id="inputState" required
+												class="form-select">
+												<option selected disabled>Choose...</option>
+												<option >1st</option>
+												<option >2nd</option>
+												<option >3rd</option>
+												<option >4th</option>
+												<option >5th</option>
+												<option >6th</option>
+												<option >7th</option>
+												<option >8th</option>
+											</select>
+										</div>
+										
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Subject Code</label>
+											<input name="subjectCode" required type="text"
+												class="form-control" id="inputCity">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Subject Cradit Hour </label>
+											 <input name="subjectCraditHour" required
+												type="number" class="form-control" id="inputCity">
+										</div>
+										
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Pre-Requisite </label> 
+											<input name="preRequisite"
+												type="text" class="form-control" id="inputCity">
+										</div>
+										
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Date </label> 
+											<input name="date"
+												type="date" class="form-control" id="inputCity">
+										</div>
+
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Submit</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+	</section>
+</body>
+</html>

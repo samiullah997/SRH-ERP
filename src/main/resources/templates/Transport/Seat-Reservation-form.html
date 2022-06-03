@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="Transport/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Seat Reservation form page</title>
+</head>
+<body>
+	<section>
+		<div class="card">
+			<div class="container card-header text-center">
+				<h2>Submit Seat Reservation Details</h2>
+			</div>
+			<div class="card-body" th:each="b:${Bus}"
+				th:if="${seatFull}!='seatFull'">
+				<form class="row g-3" action="#" method="POST"
+					th:action="@{/Transport/Seat-Reservation-submit}">
+
+					<input type="hidden" class="busId" name="busId"
+						th:value="${b.busId}" />
+
+					<div class="col-md-6">
+						<label for="inputPassword4" class="form-label">Bus Name </label> <input
+							name="busNumber" required readonly type="text"
+							class="form-control busNumber" th:value="${b.busName}"
+							id="busNumber">
+					</div>
+					<div class="col-md-6" th:each="seat:${maxSeatNo}">
+						<label for="inputPassword4" class="form-label"> Seate No </label>
+						<input name="seatNo" th:value="${seat.seatNo}" required readonly
+							type="text" class="form-control seatNo" id="inputPassword4">
+					</div>
+
+					<div class="col-md-6">
+						<label for="inputPassword4" class="form-label">Reservation
+							Date </label> <input name="date" required type="date"
+							class="form-control studentName" id="inputPassword4">
+					</div>
+
+<!-- 					<div class="col-md-6"> -->
+<!-- 						<label for="inputEmail4" class="form-label">Select -->
+<!-- 							Passenger Type</label> <select name="studentsId" required type="text" -->
+<!-- 							class="form-control rollNo" id="Category"> -->
+<!-- 							<option selected>Choose...</option> -->
+<!-- 							<option value="Teacher">Teacher</option> -->
+<!-- 							<option value="Student">Student</option> -->
+<!-- 							<option value="Employee">Employee</option> -->
+
+<!-- 						</select> -->
+
+<!-- 					</div> -->
+
+					<div class="col-md-6">
+						<label for="inputEmail4" class="form-label">Select Student</label>
+						<select name="studentsId" required type="text"
+							class="form-control rollNo" id="studentDetails">
+							<option selected>Choose...</option>
+							<option th:each="s:${students}" th:value="${s.id}"
+								th:text="${s.firstName+' '+s.lastName}">Available</option>
+						</select>
+					</div>
+
+<!-- 					<div class="col-md-6"> -->
+<!-- 						<label for="inputEmail4" class="form-label">Select Teacher</label> -->
+<!-- 						<select name="studentsId" required type="text" -->
+<!-- 							class="form-control rollNo" id="TeacherDetails"> -->
+<!-- 							<option selected>Choose...</option> -->
+<!-- 							<option th:each="s:${students}" th:value="${s.id}" -->
+<!-- 								th:text="${s.firstName+' '+s.lastName}">Available</option> -->
+<!-- 						</select> -->
+<!-- 					</div> -->
+
+					<div class="col-12 text-center">
+						<button type="submit" name="" class="btn btn-outline-primary">
+							Reserve Seat</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="card-body text-center h4"
+				th:unless="${seatFull}!='seatFull'">Sorry This Bus Have All
+				Seats Full</div>
+
+		</div>
+	</section>
+
+</body>
+</html>

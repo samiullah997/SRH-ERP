@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="Transport/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Check out Details page</title>
+</head>
+<body>
+	<section>
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="c:${checkDetails}">
+
+				<div class="card h-100">
+					<!-- 					<a style="text-decoration: none;" th:href="@{/Library/member-books(id=${b.studentsId.id})}"> -->
+					<div class="text-center" style="margin-top: 3%">
+						<img th:src="@{/images/Bus.png}" class="card-img-top text-center"
+							style="width: 50%; height: 100%;" alt="...">
+					</div>
+					<div class="card-body">
+						<h5 class="card-title text-center"
+							th:text="${'Reserved By: '+c.studentsId.firstName+' '+c.studentsId.lastName}">Card
+							title</h5>
+						<h6 class="card-text text-center"
+							th:text="${'Bus Number: '+c.busId.busNumber}">Type</h6>
+						<p class="card-text text-center"
+							th:text="${'Seat Number: '+c.seatNo}">Model</p>
+
+						<small class="border" th:text="'Total Fee: '+${c.totalFee}"></small>
+						<small class="border" th:text="'-Submit Fee: '+${c.submitFee}"></small>
+						<small class="border"
+							th:text="'Remaining Fee: '+${c.totalFee-c.submitFee}"></small>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted"
+							th:text="${'Check Out Date: '+c.checkOutDate+'-----'}">Tranport
+							System</small> <small th:if="${c.totalFee-c.submitFee}>0"> <input
+							type="button" data-bs-toggle="modal" data-bs-target="#addFee"
+							class="btn btn-outline-primary btn-sm" value="add Fee"
+							th:onclick="setFeeData([[${c.id}]],[[${c.totalFee}]],[[${c.totalFee-c.submitFee}]],[[${c.submitFee}]])" /></small>
+					</div>
+				</div>
+				<!-- 					</a> -->
+			</div>
+
+
+
+		</div>
+
+		<div class="container text-center mt-3" th:if="${totalPages}>=1">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li th:if="${currentPage != 0}" class="page-item"><a
+						th:href="@{/Transport/All-Check-Out-Details(page=${currentPage-1})}"
+						class="page-link" href="#">Previous</a></li>
+					<li th:classappend="${currentPage==i-1?'active':''}"
+						th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a
+						th:href="@{/Transport/All-Check-Out-Details(page=${i-1})}"
+						class="page-link" href="#"><span th:text="${i}"></span></a></li>
+					<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+						th:href="@{/Transport/All-Check-Out-Details(page=${currentPage+1})}"
+						class="page-link" href="#">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="text-center mt-5" th:unless="${totalPages}>=1">
+			<h2>There is No Bus Record Fund</h2>
+		</div>
+
+
+
+		<!-- //ADD Add More Fee  Model -->
+		<div class="myForm">
+
+			<div class="modal fade" id="addFee" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Add More Fee</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Enter Fee Details</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Transport/Seat-check-out-update-fee}">
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Total
+												Transport Fee </label> <input id="totalFee" class="form-control h5"
+												readonly /> <input type="hidden" id="feeId" name="feeId" />
+
+
+										</div>
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Remaining
+												Fee </label> <input id="remainingFee" class="form-control h5"
+												readonly />
+												<input type="hidden" id="rfee" />
+												<input type="hidden" id="ofee" />
+												<input type="hidden" id="id" name="id" />
+
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Submit
+												Old Fee </label> <input id="oldFee" class="form-control h5"
+												name="oldFee" readonly />
+
+										</div>
+
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Submit
+												New Fee</label> <input class="form-control h5" name="newFee"
+												type="number" th:onkeyup="setNewFeeData()" id="newFee" placeholder="Rs:32000" />
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Check
+												Out Date </label> <input required type="date"
+												class="form-control studentName" name="checkOutDate"
+												id="inputPassword4">
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Check
+												Out</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+</body>
+</html>

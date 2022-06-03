@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="admission/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Semester Data page</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+
+			<div class="container text-center "
+				style="font-size: 15px; margin-bottom: 50px;">
+				<div th:if="${session.message}"
+					th:classappend="${session.message.type}" class="alert" role="alert">
+					<p th:text="${session.message.content}"></p>
+					<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+				</div>
+				<div class="card" style="border-radius: 3%;">
+					<div class="container text-center "
+						style="font-size: 15px; margin-bottom: 50px;">
+						<div class="container text-center">
+							<h2 class="" th:text="${batch}"></h2>
+
+						</div>
+						
+
+						<div class="row row-cols-1 mt-3 row-cols-md-4 g-4">
+							<div class="col">
+								<a style="text-decoration: none;"
+									th:href="@{/Admission/fee_record(page=0,batch=${batch},semester=1st)}">
+									<div class="card"
+										style="background-color: maroon; border-radius: 5%;">
+										<div class="card-body text-center text-white mt-5 mb-5">
+											
+											<h5 class="card-title">1st Semester Fee Record</h5>
+										</div>
+									</div>
+								</a>
+							</div>
+
+							<div class="col">
+								<a style="text-decoration: none;"
+									th:href="@{/Admission/fee_record(page=0,batch=${batch},semester=2nd)}">
+									<div class="card"
+										style="background-color: maroon; border-radius: 5%;">
+										<div class="card-body text-center text-white mt-5 mb-5">
+											<h5 class="card-title">2nd Semester Fee Record</h5>
+										</div>
+									</div>
+								</a>
+							</div>
+
+							<div class="col">
+								<a style="text-decoration: none;"
+									th:href="@{/Admission/fee_record(page=0,batch=${batch},semester=3rd)}">
+									<div class="card"
+										style="background-color: maroon; border-radius: 5%;">
+										<div class="card-body text-center text-white mt-5 mb-5">
+											
+											<h5 class="card-title">3rd Semester Fee Record</h5>
+										</div>
+									</div>
+								</a>
+							</div>
+
+							<div class="col">
+								<a style="text-decoration: none;"
+									th:href="@{/Admission/fee_record(page=0,batch=${batch},semester=4th)}">
+									<div class="card"
+										style="background-color: maroon; border-radius: 5%;">
+										<div class="card-body text-center text-white mt-5 mb-5">
+											<h5 class="card-title">4th Semester Fee Record</h5>
+										</div>
+									</div>
+								</a>
+							</div>
+
+							<div class="col">
+								<a style="text-decoration: none;"
+									th:href="@{/Admission/fee_record(page=0,batch=${batch},semester=5th)}">
+									<div class="card"
+										style="background-color: maroon; border-radius: 5%;">
+										<div class="card-body text-center text-white mt-5 mb-5">
+											<h5 class="card-title">5th Semester Fee Record</h5>
+										</div>
+									</div>
+								</a>
+							</div>
+
+							<div class="col">
+								<a style="text-decoration: none;"
+									th:href="@{/Admission/fee_record(page=0,batch=${batch},semester=6th)}">
+									<div class="card"
+										style="background-color: maroon; border-radius: 5%;">
+										<div class="card-body text-center text-white mt-5 mb-5">
+											<h5 class="card-title">6th Semester Fee Record</h5>
+										</div>
+									</div>
+								</a>
+							</div>
+
+							<div class="col">
+								<a style="text-decoration: none;"
+									th:href="@{/Admission/fee_record(page=0,batch=${batch},semester=7th)}">
+									<div class="card"
+										style="background-color: maroon; border-radius: 5%;">
+										<div class="card-body text-center text-white mt-5 mb-5">
+											<h5 class="card-title">7th Semester Fee Record</h5>
+										</div>
+									</div>
+								</a>
+							</div>
+
+							<div class="col">
+								<a style="text-decoration: none;"
+									th:href="@{/Admission/fee_record(page=0,batch=${batch},semester=8th)}">
+									<div class="card"
+										style="background-color: maroon; border-radius: 5%;">
+										<div class="card-body text-center text-white mt-5 mb-5">
+											
+											<h5 class="card-title">8th Semester Fee Record</h5>
+										</div>
+									</div>
+								</a>
+							</div>
+
+
+						</div>
+					</div>
+
+				</div>
+	</section>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="Transport/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Seat Reservation page</title>
+</head>
+<body>
+	<section>
+		<!-- 		<div class="row row-cols-1 row-cols-md-1 g-1"> -->
+		<!-- 			<div class="col"> -->
+		<!-- 				<div class="container text-center" -->
+		<!-- 					style="text-align: right; margin-bottom: 10px;"> -->
+		<!-- 					<input type="button" id="addbtn" class="btnadd btn btn-primary" -->
+		<!-- 						data-bs-toggle="modal" data-bs-target="#addBus" -->
+		<!-- 						value="Seat Reservation" /> -->
+		<!-- 				</div> -->
+		<!-- 			</div> -->
+
+		<!-- 		</div> -->
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col" th:each="s:${seatBook}">
+
+				<div class="card h-100">
+					<!-- 					<a style="text-decoration: none;" th:href="@{/Library/member-books(id=${b.studentsId.id})}"> -->
+					<div class="text-center" style="margin-top: 3%">
+						<img th:src="@{/images/Bus.png}" class="card-img-top text-center"
+							style="width: 50%; height: 100%;" alt="...">
+					</div>
+					<div class="card-body">
+						<h5 class="card-title text-center"
+							th:text="${'Reserved By: '+s.studentsId.firstName+' '+s.studentsId.lastName}">Card
+							title</h5>
+						<h6 class="card-text text-center"
+							th:text="${'Bus Number: '+s.busId.busNumber}">Type</h6>
+						<p class="card-text text-center"
+							th:text="${'Seat Number: '+s.seatNo}">Model</p>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted" th:text="${'Reservation Date: '+s.date}">Tranport
+							System</small> <small><input style="font-size: 13px"
+							type="button" data-bs-toggle="modal" data-bs-target="#checkout"
+							class="btn btn-outline-primary ml-4" value="Check Out"
+							th:onclick="setData([[${s.seatBookId}]],[[${s.busId.busName}]],[[${s.studentsId.firstName+' '+s.studentsId.lastName}]],[[${s.seatNo}]],[[${s.busId.busId}]],[[${s.studentsId.id}]]);" /></small>
+					</div>
+				</div>
+				<!-- 					</a> -->
+			</div>
+
+
+
+		</div>
+
+		<div class="container text-center mt-3" th:if="${totalPages}>=1">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<li th:if="${currentPage != 0}" class="page-item"><a
+						th:href="@{/Transport/Seat-Reservation(page=${currentPage-1})}"
+						class="page-link" href="#">Previous</a></li>
+					<li th:classappend="${currentPage==i-1?'active':''}"
+						th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a
+						th:href="@{/Transport/Seat-Reservation(page=${i-1})}"
+						class="page-link" href="#"><span th:text="${i}"></span></a></li>
+					<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+						th:href="@{/Transport/Seat-Reservation(page=${currentPage+1})}"
+						class="page-link" href="#">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="text-center mt-5" th:unless="${totalPages}>=1">
+			<h2>There is No Bus Record Fund</h2>
+		</div>
+
+
+		<!-- //ADD Seat Reservation Record Model -->
+		<div class="myForm">
+
+			<div class="modal fade" id="addBus" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Bus Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Submit Bus Record</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Transport/Seat-Reservation-submit}">
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Select
+												Student</label> <select name="studentsId" required type="text"
+												class="form-control rollNo" id="inputEmail4">
+												<option selected>Choose...</option>
+												<option th:each="s:${students}" th:value="${s.id}"
+													th:text="${s.firstName+' '+s.lastName}">Available</option>
+
+											</select>
+
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Select
+												Bus Number </label> <input name="busNumber" required type="text"
+												class="form-control studentName" id="inputPassword4">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Reservation
+												Date </label> <input name="date" required type="date"
+												class="form-control studentName" id="inputPassword4">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Choose
+												Seate No </label> <input name="seatNo" required type="text"
+												class="form-control registrationNo" id="inputPassword4">
+										</div>
+
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Add
+												Bus Record</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- //ADD Seat Check Out Model -->
+		<div class="myForm">
+
+			<div class="modal fade" id="checkout" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Check Out</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Check Out Details</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Transport/Seat-check-out}">
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Student
+												Name</label> <input id="studentsName" class="form-control h5"
+												 readonly />
+												<input type="hidden" id="studentsId" name="studentsId" />
+												<input type="hidden" id="seatBookId" name="seatBookId" />
+
+										</div>
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Bus
+												Number</label> <input id="busName" class="form-control h5"
+												 readonly />
+												<input type="hidden" id="busId" name="busId" />
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Seat
+												Number</label> <input id="seatNo" class="form-control h5"
+												name="seatNo" readonly />
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Check
+												Out Date </label> <input required type="date"
+												class="form-control studentName" name="checkOutDate"
+												id="inputPassword4">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Total
+												Transport Fee</label> <input class="form-control h5" name="totalFee"
+												type="number" placeholder="Rs:32000" />
+
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Submit
+												Transport Fee</label> <input class="form-control h5"
+												name="submitFee" type="number" placeholder="Rs:32000" />
+
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Check
+												Out</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</section>
+</body>
+</html>

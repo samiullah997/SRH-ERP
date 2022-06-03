@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admission/base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Welcom To SRH ERP</title>
+</head>
+
+<body>
+	<section>
+		<h1 class="text-center">Welcome To Admission</h1>
+		
+		<div class="row row-cols-1 row-cols-md-2 g-2">
+			<div class="col" >
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Total Students</h5>
+							<h5 class="card-title" th:text="${totalStudents}" >New Result</h5>
+						</div>
+					</div>
+			</div>
+			
+			<div class="col" >
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Total Semester Fee</h5>
+							<h5 class="card-title" th:text="${totalSemesterFee}" >New Result</h5>
+						</div>
+					</div>
+			</div>
+			
+			<div class="col" >
+					<div class="card"
+						style="background-color: maroon; border-radius: 5%;">
+						<div class="card-body text-center text-white mt-5 mb-5">
+							<h5>Total Registration Fee</h5>
+							<h5 class="card-title" th:text="${totalRegistrationFee}" >New Result</h5>
+						</div>
+					</div>
+			</div>
+			
+			
+		</div>
+		
+		
+	</section>		
+</body>
+
+</html>

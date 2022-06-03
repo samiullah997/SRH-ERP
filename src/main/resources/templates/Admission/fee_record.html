@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="Admission/base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>This is Fee Recrod page</title>
+</head>
+
+<body>
+	<section>
+
+		<!--<div class="row row-cols-1 row-cols-md-2 g-2">
+			<div class="col">
+				<div class="container text-center" style="text-align: right; margin-bottom: 10px;">
+					<input type="button" id="addbtn" class="btnadd btn btn-primary" data-bs-toggle="modal"
+						data-bs-target="#addPaper" value="Add Result" />
+				</div>
+			</div>
+
+			<div class="col">
+				<div class="container text-center" style="text-align: left; margin-bottom: 10px;">
+					<a th:href="@{/examination/result-print-page(semester=${semester},batch=${batch})}">
+						<input type="button" id="addbtn" class="btnadd btn btn-primary" value="print Result" />
+					</a>
+				</div>
+			</div>
+
+		</div>-->
+
+
+		<div class="container text-center " style="font-size: 15px; margin-bottom: 50px;">
+			<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="alert">
+				<p th:text="${session.message.content}"></p>
+				<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+
+
+			<div class="card border-success mb-3">
+			<table class="table rTable caption-top">
+				<div class="card-header border-success text-center">
+			
+					<div class="row">
+						<div class="col-md-2 order-first border-success"><input type="button" id="addbtn" class=" border-success btnadd btn btn-outline-primary" data-bs-toggle="modal"
+							data-bs-target="#addStudentFee" value="Add Fee" /></div>
+						<div class="col border-success" ><h3 class="border-success" th:text="${semester}+' '+'Semester Fee Record'"></h3></div>
+						<div class="col-md-2 order-last "><a th:href="@{/examination/result-print-page(semester=${semester},batch=${batch})}">
+						<!-- <input type="button" id="addbtn" class="border-success btnadd btn btn-outline-primary" value="print Result" /> --></a>
+					 	</div>
+					</div>
+				</div>
+				
+				<input type="hidden" id="hsemester" th:value="${semester}" />
+				<input type="hidden" id="hbatch" th:value="${batch}" />
+				
+				<!--search -->
+				
+				<div class="search-container my-4 mx-4 ">
+				<div class="input-group mb-3">
+					<span class="input-group-text" id="basic-addon1">Search</span>
+				<input onkeyup="searchFee()" id="search-input" type="text" class="form-control" placeholder="Search Student By Name" />
+				</div>
+				<div class="search-result">
+					
+						<!--Result Goes Here -->
+					
+					</div>
+				</div>
+				
+				
+				<thead>
+					<tr>
+						<th scope="col">Roll No</th>
+						<th scope="col">Student Name</th>
+						<th scope="col">Father Name</th>
+						<th scope="col">Total Fee</th>
+						<th scope="col">Submited Fee</th>
+						<th scope="col">Slip Number</th>
+						<th scope="col">Date</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s:${studentFee}">
+						<td th:text="${s.studentsId.rollNo}">Bcs17-33</td>
+						<td th:text="${s.studentsId.firstName+' '+s.studentsId.lastName}">Samiullah</td>
+						<td th:text="${s.studentsId.fatherName}">Shah Jehan</td>
+						<td th:text="${s.totalAmount}">34452</td>
+						<td th:text="${s.submitAmount}">32434</td>
+						<td th:text="${s.slipNumber}">32434</td>
+						<td th:text="${s.date}">32434</td>
+						<td ><a th:if="${s.totalAmount-s.submitAmount>0}"
+							data-bs-toggle="modal" data-bs-target="#addRemainingFee"
+							class="btnImprove btn  badge bg-danger rounded-pill" th:onclick="addFee([[${s.accountId}]],
+							[[${s.studentsId.firstName+' '+s.studentsId.lastName}]],
+							[[${s.totalAmount}]],
+							[[${s.submitAmount}]],
+							[[${s.date}]])">Add Fee</a>
+
+							<p th:unless="${s.totalAmount-s.submitAmount>0}"
+								class="btn-outline-success rounded badge bg-success rounded-pill">Accepted</p>
+						</td>
+						
+					</tr>
+				</tbody>
+			</table>
+			<div class="container text-center" th:if="${totalPages}>=1">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${currentPage != 0}" class="page-item"><a
+							th:href="@{/Admission/fee_record(page=${currentPage-1},batch=${batch},semester=${semester})}"
+							class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}"
+							class="page-item"><a
+							th:href="@{/Admission/fee_record(page=${i-1},batch=${batch},semester=${semester})}"
+							class="page-link" href="#"><span th:text="${i}"></span></a></li>
+						<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+							th:href="@{/Admission/fee_record(page=${currentPage+1},batch=${batch},semester=${semester})}"
+							class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div th:unless="${totalPages}>=1">
+			<h2>There is No Data</h2>
+			
+			</div>
+			</div>
+		</div>
+
+
+
+		<div class="myForm">
+
+			<div class="modal fade" id="addStudentFee" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Add Student Fee
+								Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Submit Fee</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Admission/semester-fee-submit(semester=${semester},batch=${batch},page=${page})}">
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Choose Student</label>
+											<select name="studentsId" id="inputState" required
+												class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="s:${students}" th:value="${s.id}" th:text="${s.firstName+' '+s.lastName+'('+s.rollNo+')'}">1st</option>
+												
+											</select>
+										</div>
+										
+
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Total Fee </label>
+											<input name="totalAmount" required type="number"
+												class="form-control" id="inputCity">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Fee To be
+												Sumbitted </label> <input name="submitAmount" required type="number"
+												class="form-control" id="inputCity">
+										</div>
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Bank Slip Number</label>
+											<input name="slipNumber" required type="text"
+												class="form-control" id="inputCity">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Fee
+												Submitted Date </label> <input name="date" required
+												type="date" class="form-control" id="inputCity">
+										</div>
+
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Submit</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="myForm">
+
+			<div class="modal fade" id="addRemainingFee" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Add Student Fee
+								Records</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+
+						<div class="modal-body">
+
+							<div class="card">
+								<div class="container card-header text-center">
+									<h2>Submit Fee</h2>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="#" method="POST"
+										th:action="@{/Admission/semester-fee-update(semester=${semester},batch=${batch},page=${page})}">
+										<input type="hidden" name="accountId" id="id"/>
+										<div class="col-md-6">
+											<label for="inputDepartment"  class="form-label">Current Semester</label>
+											<input class="form-control"readonly type="text" name="name" id="s_name"/>
+										</div>
+										
+
+
+										<div class="col-md-6">
+											<label for="inputCity"  class="form-label">Total Fee </label>
+											<input name="totalAmount" readonly required type="number"
+												class="form-control" id="s_totalAmount">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Fee To be
+												Sumbitted </label> <input name="submitAmount" required type="number"
+												class="form-control" id="s_submitAmount">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity"  class="form-label">Fee
+												Submitted Date </label> <input readonly name="date" required
+												type="date" class="form-control" id="date">
+										</div>
+
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Submit</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="addPaper" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Paper
+							Records</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+
+					<div class="modal-body">
+
+						<div class="card">
+							<div class="container card-header text-center">
+								<h2>Paper Records</h2>
+							</div>
+							<div class="card-body">
+								<div class="container">
+									<div th:if="${session.message}"
+										th:classappend="${session.message.type}" class="alert"
+										role="alert">
+										<p th:text="${session.message.content}"></p>
+										<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+									</div>
+
+									<form class="row g-3" action="#" th:object="${resultList}"
+										method="POST" th:action="@{/examination/paper-register}">
+										<input type="hidden" name="batch" th:value="${batch}" /> <input
+											type="hidden" name="semester" th:value="${semester}" />
+
+										<div class="col-md-6">
+											<label for="inputEmail4" class="form-label">Student
+												Roll No </label> <input name="rollNo" required type="text"
+												class="form-control" id="inputEmail4">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Student
+												Name </label> <input name="studentName" required type="text"
+												class="form-control" id="inputPassword4">
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" class="form-label">Student
+												Registration No </label> <input name="registrationNo" required
+												type="text" class="form-control" id="inputPassword4">
+										</div>
+										<div class="col-6">
+											<label for="inputAddress" class="form-label">Father
+												Name </label> <input name="fatherName" required type="text"
+												class="form-control" id="inputAddress">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Deparment</label>
+											<select name="department" id="inputState" required
+												class="form-select">
+												<option selected>Choose...</option>
+												<option>Computer Science</option>
+												<option>Bachelor of Business Administration</option>
+											</select>
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputDepartment" class="form-label">Paper
+												Name</label> <select name="paperName" id="inputState" required
+												class="form-select">
+												<option selected disabled>Choose...</option>
+												<option th:each="s:${subjects}" th:text="${s.subjectName}">DLD</option>
+											</select>
+										</div>
+
+
+										<input name="totalMarks" required type="hidden" value="100"
+											class="form-control" id="inputCity">
+
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Paper
+												Obtain Marks </label> <input name="marks"  required type="number"
+												class="form-control" max="100" min="0" id="inputCity">
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputCity" class="form-label">Paper
+												Submitted Date </label> <input name="date" required type="date"
+												class="form-control" id="inputCity">
+										</div>
+
+										<div class="col-12 text-center">
+											<button type="submit" name="" class="btn btn-outline-primary">Add Paper Result</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
+</body>
+</html>
