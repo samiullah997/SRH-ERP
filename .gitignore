@@ -12,6 +12,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+instance-key-pair-login.pem
 
 ### IntelliJ IDEA ###
 .idea
@@ -31,3 +32,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/bin/

@@ -12,6 +12,7 @@
 	<groupId>com.sami</groupId>
 	<artifactId>SRH-ERP</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>SRH-ERP</name>
 	<description>Final Year Project</description>
 	<properties>
